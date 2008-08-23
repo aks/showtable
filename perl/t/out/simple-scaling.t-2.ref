@@ -1,0 +1,12 @@
+*** STDOUT ***
+ Index     Name     Phone      Address       
+ -----  ----------  -----  ----------------  
+     1  Alan      > 555-1> 1234 Something  >
+       <Stebbens   <234   <St., CA          
+     2  Bob       > 555-1> 9234 Nowhere    >
+       <Frankel    <235   <Way, WA          
+     3  Mr.       > 555-9> 1238 Car Lane   >
+       <Goodwrench <432   <Pl., NY          
+     4  Mr. Ed      555-3> 9876 Cowbarn    >
+                   <215   <Home, VA         
+

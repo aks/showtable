@@ -1,0 +1,33 @@
+*** STDOUT ***
+<TABLE align=center BORDER=1 CELLPADDING=1 CELLSPACING=1>
+<TR>
+ <TH ALIGN=CENTER WIDTH=10%><b><i>Index</i></b></TH>
+ <TH ALIGN=CENTER WIDTH=28%><b><i>Name</i></b></TH>
+ <TH ALIGN=CENTER WIDTH=16%><b><i>Phone</i></b></TH>
+ <TH ALIGN=CENTER WIDTH=44%><b><i>Address</i></b></TH>
+</TR>
+<TR> 
+<TD ALIGN=RIGHT><tt>1</tt></TD>
+<TD ALIGN=LEFT><tt>Alan Stebbens</tt></TD>
+<TD ALIGN=LEFT><tt>555-1234</tt></TD>
+<TD ALIGN=LEFT><tt>1234 Something St., CA</tt></TD>
+</TR>
+<TR> 
+<TD ALIGN=RIGHT><tt>2</tt></TD>
+<TD ALIGN=LEFT><tt>Bob Frankel</tt></TD>
+<TD ALIGN=LEFT><tt>555-1235</tt></TD>
+<TD ALIGN=LEFT><tt>9234 Nowhere Way, WA</tt></TD>
+</TR>
+<TR> 
+<TD ALIGN=RIGHT><tt>3</tt></TD>
+<TD ALIGN=LEFT><tt>Mr. Goodwrench</tt></TD>
+<TD ALIGN=LEFT><tt>555-9432</tt></TD>
+<TD ALIGN=LEFT><tt>1238 Car Lane Pl., NY</tt></TD>
+</TR>
+<TR> 
+<TD ALIGN=RIGHT><tt>4</tt></TD>
+<TD ALIGN=LEFT><tt>Mr. Ed</tt></TD>
+<TD ALIGN=LEFT><tt>555-3215</tt></TD>
+<TD ALIGN=LEFT><tt>9876 Cowbarn Home, VA</tt></TD>
+</TR>
+</TABLE>

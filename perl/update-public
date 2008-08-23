@@ -1,0 +1,39 @@
+#!/bin/sh
+
+VER=`grep VERSION Makefile.PL | awk '{print $NF}' | tr -d "',"`
+
+DEPOT=$HOME/public_html/depot
+DB_DIR=$DEPOT/perl/db
+
+
+if [ ! -f Data-ShowTable-$VER.html -o \
+     ! -f showtable-$VER.html ]; then
+    gen-html
+fi
+
+if [ ! -f Data-ShowTable-$VER.tar.gz ]; then
+    make tardist
+fi
+
+if [ ! -f Data-ShowTable-$VER.shar ]; then
+    make shdist
+fi
+
+update() {
+    file=$1
+    oldpat=${2:-''}
+    test -f $file || return
+    for old in $DB_DIR/$oldpat ; do
+	test -f "$old" && (set -x ; mv $old $old.old )
+    done
+    ( set -x ; cp $file $DB_DIR && ( test -z "$oldpat" || rm -f $DB_DIR/$oldpat.old ) )
+}
+
+# copy versioned files
+
+update Data-ShowTable-$VER.html		"Data-ShowTable-*.html"
+update Data-ShowTable-$VER.tar.gz	"Data-ShowTable-*.tar.gz"
+update Data-ShowTable-$VER.shar		"Data-ShowTable-*.shar"
+update ShowTable.pm
+update showtable-$VER.html		showtable-*.html
+update showtable

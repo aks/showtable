@@ -1,0 +1,44 @@
+#!/bin/sh
+# cvsstatus <files>
+#
+fields="File,Status,Time"
+cvsargs=
+
+addfield() {
+    if ( { ( echo $fields | frep -s $1 ) } ) ; then
+        fields="$fields,$1"
+    fi
+}
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+    -r|-rev*) addfield Working_revision ;
+    	      addfield Repository_revision ;;
+    -p|-path) addfield Path ;;
+    -t|-time|-date) addfield Time ;;
+    -a|-all)  fields= ;;
+    -h|-he|-hel|-help)
+    	echo 1>&2 <<EOF
+usage: showstatus [-r|-h|CVSARGS] [FILES]
+EOF
+	exit ;;
+    -*) cvsargs="$cvsargs $1" ;;
+    *) break ;;
+    esac
+    shift
+done
+if [ -n "$fields" ]; then
+    fields="-fields=$fields"
+fi
+cvs status $cvsargs $@ |
+awk '/File:/{for (i=1; i<=NF && $i != "Status:"; i++) 
+	         printf "%s ", $i
+	     print ""
+	     print $i, $(i+1)
+	     next
+	    }
+     /revision:/{print $1"_"$2,"_"$3}
+     /Working/{print "Time:", $4,$5,$6,$7,$8}
+     /Repository/{print "Path:", $4}
+     /===/&&NR>1{print ""}' |
+showtable -in=list $fields

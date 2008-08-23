@@ -1,0 +1,734 @@
+<HTML>
+<HEAD>
+<TITLE>Data::ShowTable(3)</TITLE>
+</HEAD>
+<BODY>
+<H1>Data::ShowTable(3)</H1>
+<HR>
+<PRE>
+       <STRONG>ShowTable</STRONG> - routines to display tabular data in several
+       formats.
+
+
+</PRE>
+<H2>USAGE</H2><PRE>
+       <STRONG>use</STRONG> <STRONG>Data::ShowTable;</STRONG>
+
+       <STRONG>ShowTable</STRONG> \@<EM>titles</EM>, \@<EM>types</EM>, \@<EM>widths</EM>, \&amp;<EM>row</EM><STRONG>_</STRONG><EM>sub</EM> [,
+       \&amp;<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM> ];
+
+       $Data::ShowTable::<STRONG>Show_Mode</STRONG> = '<EM>mode</EM>';
+
+       $Data::ShowTable::<STRONG>Term_Columns</STRONG> = <EM>NNN</EM>;
+
+       $Data::ShowTable::<STRONG>Max_Table_Width</STRONG> = <EM>NNN</EM>;
+
+       $Data::ShowTable::<STRONG>No_Escape</STRONG> = <EM>flag</EM>;
+
+       %Data::ShowTable::<STRONG>URL_Keys</STRONG> = { "<EM>$colname</EM>" =&gt; "<EM>$col</EM><STRONG>_</STRONG><EM>URL</EM>",
+       ... };
+
+       <STRONG>ShowRow</STRONG> $<EM>rewindflag</EM>, \$<EM>index</EM>, $<EM>col</EM><STRONG>_</STRONG><EM>array</EM><STRONG>_</STRONG><EM>1</EM> [,
+       $<EM>col</EM><STRONG>_</STRONG><EM>array</EM><STRONG>_</STRONG><EM>2</EM>, ...;]
+
+       <STRONG>ShowDatabases</STRONG> \@<EM>dbnames</EM>;
+
+       <STRONG>ShowTables</STRONG> \@<EM>tblnames</EM>;
+
+       <STRONG>ShowColumns</STRONG> \@<EM>columns</EM>, \@<EM>col</EM><STRONG>_</STRONG><EM>types</EM>, \@<EM>col</EM><STRONG>_</STRONG><EM>lengths</EM>,
+       \@<EM>col</EM><STRONG>_</STRONG><EM>attrs</EM>;
+
+       <STRONG>ShowBoxTable</STRONG> \@<EM>titles</EM>, \@<EM>types</EM>, \@<EM>widths</EM>, \&amp;<EM>row</EM><STRONG>_</STRONG><EM>sub</EM> [,
+       \&amp;<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM> ];
+
+       <STRONG>ShowSimpleTable</STRONG> \@<EM>titles</EM>, \@<EM>types</EM>, \@<EM>widths</EM>, \&amp;<EM>row</EM><STRONG>_</STRONG><EM>sub</EM> [,
+       \&amp;<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM>];
+
+       <STRONG>ShowHTMLTable</STRONG> \@<EM>titles</EM>, \@<EM>types</EM>, \@<EM>widths</EM>, \&amp;<EM>row</EM><STRONG>_</STRONG><EM>sub</EM> [,
+       \&amp;<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM>];
+
+       <STRONG>ShowListTable</STRONG> \@<EM>titles</EM>, \@<EM>types</EM>, \@<EM>widths</EM>, \&amp;<EM>row</EM><STRONG>_</STRONG><EM>sub</EM> [,
+       \&amp;<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM>];
+
+       $<EM>fmt</EM> = <STRONG>ShowTableValue</STRONG> $<EM>value</EM>, $<EM>type</EM>, $<EM>max</EM><STRONG>_</STRONG><EM>width</EM>, $<EM>width</EM>,
+       $<EM>precision</EM>;
+
+
+</PRE>
+<H2>DESCRIPTION</H2><PRE>
+       The <STRONG>ShowTable</STRONG> module provides subroutines to display
+       tabular data, typially from a database, in nicely
+       formatted columns, in several formats.  The output format
+       for any one invocation can be one of four possible styles:
+
+       Box       A tabular format, with the column titles and the
+                 <EM>ShowBoxTable</EM> for details.
+
+       Table     A simple tabular format, with columns
+                 automatically aligned, with column titles.  See
+                 the section on <EM>ShowSimpleTable</EM>.
+
+       List      A <EM>list</EM> style, where columns of data are listed
+                 as a <EM>name</EM>:<EM>value</EM> pair, one pair per line, with
+                 rows being one or more column values, separated
+                 by an empty line.  See the section on
+                 <EM>ShowListTable</EM>.
+
+       HTML      The data is output as an HTML <EM>TABLE</EM>, suitable
+                 for display through a <EM>Web</EM>-client.  See the
+                 section on <EM>ShowHTMLTable</EM>.
+
+       The subroutines which perform these displays are listed
+       below.
+
+
+</PRE>
+<H2>EXPORTED NAMES</H2><PRE>
+       This module exports the following subroutines:
+
+        <STRONG>ShowDatabases</STRONG>    <STRONG>-</STRONG> <STRONG>show</STRONG> <STRONG>list</STRONG> <STRONG>of</STRONG> <STRONG>databases</STRONG>
+        <STRONG>ShowTables</STRONG>       <STRONG>-</STRONG> <STRONG>show</STRONG> <STRONG>list</STRONG> <STRONG>of</STRONG> <STRONG>tables</STRONG>
+        <STRONG>ShowColumns</STRONG>      <STRONG>-</STRONG> <STRONG>show</STRONG> <STRONG>table</STRONG> <STRONG>of</STRONG> <STRONG>column</STRONG> <STRONG>info</STRONG>
+        <STRONG>ShowTable</STRONG>        <STRONG>-</STRONG> <STRONG>show</STRONG> <STRONG>a</STRONG> <STRONG>table</STRONG> <STRONG>of</STRONG> <STRONG>data</STRONG>
+        <STRONG>ShowRow</STRONG>          <STRONG>-</STRONG> <STRONG>show</STRONG> <STRONG>a</STRONG> <STRONG>row</STRONG> <STRONG>from</STRONG> <STRONG>one</STRONG> <STRONG>or</STRONG> <STRONG>more</STRONG> <STRONG>columns</STRONG>
+        <STRONG>ShowTableValue</STRONG>   <STRONG>-</STRONG> <STRONG>show</STRONG> <STRONG>a</STRONG> <STRONG>single</STRONG> <STRONG>column's</STRONG> <STRONG>value</STRONG>
+        <STRONG>ShowBoxTable</STRONG>     <STRONG>-</STRONG> <STRONG>show</STRONG> <STRONG>a</STRONG> <STRONG>table</STRONG> <STRONG>of</STRONG> <STRONG>data</STRONG> <STRONG>in</STRONG> <STRONG>a</STRONG> <STRONG>box</STRONG>
+        <STRONG>ShowListTable</STRONG>    <STRONG>-</STRONG> <STRONG>show</STRONG> <STRONG>a</STRONG> <STRONG>table</STRONG> <STRONG>of</STRONG> <STRONG>data</STRONG> <STRONG>in</STRONG> <STRONG>a</STRONG> <STRONG>list</STRONG>
+        <STRONG>ShowSimpleTable</STRONG>  <STRONG>-</STRONG> <STRONG>show</STRONG> <STRONG>a</STRONG> <STRONG>table</STRONG> <STRONG>of</STRONG> <STRONG>data</STRONG> <STRONG>in</STRONG> <STRONG>a</STRONG> <STRONG>simple</STRONG> <STRONG>table</STRONG>
+        <STRONG>ShowHTMLTable</STRONG>    <STRONG>-</STRONG> <STRONG>show</STRONG> <STRONG>a</STRONG> <STRONG>table</STRONG> <STRONG>of</STRONG> <STRONG>data</STRONG> <STRONG>using</STRONG> <STRONG>HTML</STRONG>
+
+       All of these subroutines, and others, are described in
+       detail in the following sections.
+
+
+</PRE>
+<H2>MODULES</H2><PRE>
+
+</PRE>
+<H2>ShowTable</H2><PRE>
+       Format and display the contents of one or more rows of
+       data.
+
+         <STRONG>ShowTable</STRONG> \@<EM>titles</EM>, \@<EM>types</EM>, \@<EM>widths</EM>, \&amp;<EM>row</EM><STRONG>_</STRONG><EM>sub</EM> [,
+       \&amp;<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM> ];
+
+         $Data::ShowTable::<STRONG>Show_Mode</STRONG> = '<EM>mode</EM>';
+
+         $Data::ShowTable::<STRONG>Term_Columns</STRONG> = <EM>NNN</EM>;
+
+         $Data::ShowTable::<STRONG>Max_Table_Width</STRONG> = <EM>NNN</EM>;
+
+         $Data::ShowTable::<STRONG>No_Escape</STRONG> = <EM>flag</EM>;
+
+       display: <STRONG>Box</STRONG>, <STRONG>Table</STRONG>, <STRONG>List</STRONG>, and <STRONG>HTML</STRONG>.  Each mode is
+       described separately below.
+
+       The arguments to <STRONG>ShowTable</STRONG> are:
+
+       \@<EM>titles</EM>  A reference to an array of column names, or
+                 titles.  If a particular column name is null,
+                 then the string <STRONG>Column</STRONG> <EM>num</EM> is used by default.
+                 To have a column have no title, use the empty
+                 string.
+
+       \@<EM>types</EM>   A reference to an array of types, one for each
+                 column.  These types are passed to the <EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM>
+                 for appropriate formatting.  Also, if a column
+                 type matches the regexp "<STRONG>/text|char|string/i</STRONG>",
+                 then the column alignment will be left-
+                 justified, otherwise it will be right-justified.
+
+       \@<EM>widths</EM>  A reference to an array of column widths, which
+                 may be given as an integer, or as a string of
+                 the form: <STRONG>"</STRONG><EM>width</EM>.<EM>precision</EM>".
+
+       \&amp;<EM>row</EM><STRONG>_</STRONG><EM>sub</EM> A reference to a subroutine which successively
+                 returns rows of values in an array.  It is
+                 called for two purposes, each described
+                 separately:
+
+                 * To fetch successive rows of data:
+
+                     <STRONG>@row</STRONG> <STRONG>=</STRONG> <STRONG>&amp;$row_sub(0);</STRONG>
+
+                 When given a null, zero, or empty argument, the
+                 next row is returned.
+
+                 * To initialize or rewind the data traversal.
+
+                     <STRONG>$rewindable</STRONG> <STRONG>=</STRONG> <STRONG>&amp;$row_sub(1);</STRONG>
+
+                 When invoked with a non-null argument, the
+                 subroutine should rewind its row pointer to
+                 start at the first row of data.  If the data
+                 which <EM>row</EM><STRONG>_</STRONG><EM>sub</EM> is traversing is not rewindable,
+                 it must return zero or null.  If the data is
+                 rewindable, a non-null, non-zero value should be
+                 returned.
+
+                 The <EM>row</EM><STRONG>_</STRONG><EM>sub</EM> must expect to be invoked once with
+                 a non-null argument, in order to discover
+                 whether or not the data is rewindable.  If the
+                 data cannot be rewound, <EM>row</EM><STRONG>_</STRONG><EM>sub</EM> will thereafter
+                 only be called with a zero argument.
+
+
+                     <STRONG>$rewindable</STRONG> <STRONG>=</STRONG> <STRONG>&amp;$row_sub(1);</STRONG>
+                     <STRONG>if</STRONG> <STRONG>($rewindable)</STRONG> <STRONG>{</STRONG>
+                         <STRONG>while</STRONG> <STRONG>((@row</STRONG> <STRONG>=</STRONG> <STRONG>&amp;$row_sub(0)),</STRONG> <STRONG>$#row</STRONG> <STRONG>&gt;=</STRONG> <STRONG>0)</STRONG> <STRONG>{</STRONG>
+                             <STRONG>#</STRONG> <STRONG>examine</STRONG> <STRONG>lengths</STRONG> <STRONG>for</STRONG> <STRONG>optimal</STRONG> <STRONG>formatting</STRONG>
+                         <STRONG>}</STRONG>
+                         <STRONG>&amp;$row_sub(1);</STRONG>   <STRONG>#</STRONG> <STRONG>rewind</STRONG>
+                     <STRONG>}</STRONG>
+                     <STRONG>while</STRONG> <STRONG>((@row</STRONG> <STRONG>=</STRONG> <STRONG>&amp;$row_sub(0)),</STRONG> <STRONG>$#row</STRONG> <STRONG>&gt;=</STRONG> <STRONG>0)</STRONG> <STRONG>{</STRONG>
+                         <STRONG>#</STRONG> <STRONG>format</STRONG> <STRONG>the</STRONG> <STRONG>data</STRONG>
+                     <STRONG>}</STRONG>
+
+                 The consequence of data that is not rewindable,
+                 a reasonably nice table will still be formatted,
+                 but it may contain fairly large amounts of
+                 whitespace for wide columns.
+
+       \&amp;<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM> A reference to a subroutine which formats a
+                 value, according to its type, width, precision,
+                 and the current column width.  It is invoked
+                 this way:
+
+                   <STRONG>$string</STRONG> <STRONG>=</STRONG> <STRONG>&amp;fmt_sub($value,</STRONG> <STRONG>$type,</STRONG> <STRONG>$max_width,</STRONG> <STRONG>$width,</STRONG> <STRONG>$precision)</STRONG>
+
+                 The $<EM>max</EM><STRONG>_</STRONG><EM>width</EM> is the maximum width for the
+                 column currently being formatted.
+
+                 If $<EM>width</EM> is omitted, $<EM>max</EM><STRONG>_</STRONG><EM>width</EM> is assumed.
+
+                 If $<EM>precision</EM> is omitted, zero is assumed.
+
+                 If \&amp;<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM> is omitted, then a default
+                 subroutine, <STRONG>ShowTableValue</STRONG>, will be used, which
+                 will use Perl's standard string formatting
+                 rules.
+
+
+</PRE>
+<H2>ShowRow</H2><PRE>
+       Fetch rows successively from one or more columns of data.
+
+         <STRONG>ShowRow</STRONG> $<EM>rewindflag</EM>, \$<EM>index</EM>, $<EM>col</EM><STRONG>_</STRONG><EM>array</EM><STRONG>_</STRONG><EM>1</EM> [,
+       $<EM>col</EM><STRONG>_</STRONG><EM>array</EM><STRONG>_</STRONG><EM>2</EM>, ...;]
+
+       The <STRONG>ShowRow</STRONG> subroutine returns a row of data from one or
+       more columns of data.  It is designed to be used as a
+       <EM>callback</EM> routine, within the <STRONG>ShowTable</STRONG> routine.   It can
+       be used to select elements from one or more array
+       reference arguments.
+
+       If passed two or more array references as arguments,
+       elements of the arrays selected by $<EM>index</EM> are returned as
+       the "row" of data.
+
+       the "row" of data.
+
+       If the $<EM>rewindflag</EM> flag is set, then the $<EM>index</EM> pointer is
+       reset to zero, and "true" is returned (a scalar 1).  This
+       indicates that the data is rewindable to the <STRONG>ShowTable</STRONG>
+       routines.
+
+       When the $<EM>rewindflag</EM> is not set, then the current row of
+       data, as determined by $<EM>index</EM> is returned, and $<EM>index</EM> will
+       have been incremented.
+
+       An actual invocation (from <STRONG>ShowColumns</STRONG>) is:
+
+         <STRONG>ShowTable</STRONG> <STRONG>\@titles,</STRONG> <STRONG>\@types,</STRONG> <STRONG>\@lengths,</STRONG>
+             <STRONG>sub</STRONG> <STRONG>{</STRONG> <STRONG>&amp;ShowRow(</STRONG> <STRONG>$_[0],</STRONG> <STRONG>\$current_row,</STRONG> <STRONG>$col_names,</STRONG> <STRONG>$col_types,</STRONG>
+                             <STRONG>$col_lengths,</STRONG> <STRONG>\@col_attrs);</STRONG> <STRONG>};</STRONG>
+
+       In the example above, after each invocation, the
+       $<EM>current</EM><STRONG>_</STRONG><EM>row</EM> argument will have been incremented.
+
+
+</PRE>
+<H2>ShowDatabases</H2><PRE>
+       Show a list of database names.
+
+         <STRONG>ShowDatabases</STRONG> \@<EM>dbnames</EM>;
+
+       <STRONG>ShowDatabases</STRONG> is intended to be used to display a list of
+       database names, under the column heading of "Databases".
+       It is a special case usage of <STRONG>ShowTable</STRONG>.
+
+       The argument, \@<EM>dbnames</EM>, is a reference to an array of
+       strings.
+
+
+</PRE>
+<H2>ShowTables</H2><PRE>
+       Show an array of table names.
+
+         <STRONG>ShowTables</STRONG> \@<EM>tblnames</EM>;
+
+       <STRONG>ShowTables</STRONG> is used to display a list of table names, under
+       the column heading of "Tables".  It is a special case
+       usage of <STRONG>ShowTable</STRONG>.
+
+
+</PRE>
+<H2>ShowColumns</H2><PRE>
+       Display a table of column names, types, and attributes.
+
+         <STRONG>ShowColumns</STRONG> \@<EM>columns</EM>, \@<EM>col</EM><STRONG>_</STRONG><EM>types</EM>, \@<EM>col</EM><STRONG>_</STRONG><EM>lengths</EM>,
+       \@<EM>col</EM><STRONG>_</STRONG><EM>attrs</EM>;
+
+       The <STRONG>ShowColumns</STRONG> subroutine displays a table of column
+       names, types, lengths, and other attributes in a nicely
+       formatted table.  It is a special case usage of <STRONG>ShowTable</STRONG>.
+
+       The arguments are:
+
+       \@<EM>col</EM><STRONG>_</STRONG><EM>types</EM>
+                 An array of column types names.
+
+       \@<EM>col</EM><STRONG>_</STRONG><EM>lengths</EM>
+                 An array of maximum lengths for corresponding
+                 columns.
+
+       \@<EM>col</EM><STRONG>_</STRONG><EM>attrs</EM>
+                 An array of column attributes array references
+                 (ie: an array of arrays).  The attributes array
+                 for the first column are at "$<EM>col</EM><STRONG>_</STRONG><EM>attrs</EM>-\&gt;[0]".
+                 The first attribute of the second column is
+                 "$<EM>col</EM><STRONG>_</STRONG><EM>attrs</EM>-\&gt;[1][0]".
+
+       The columns, types, lengths, and attributes are displayed
+       in a table with the column headings: "Column", "Type",
+       "Length", and "Attributes".  This is a special case usage
+       of <STRONG>ShowTable</STRONG>.
+
+
+</PRE>
+<H2>ShowBoxTable</H2><PRE>
+       Show tabular data in a box.
+
+         <STRONG>ShowBoxTable</STRONG> \@<EM>titles</EM>, \@<EM>types</EM>, \@<EM>widths</EM>, \&amp;<EM>row</EM><STRONG>_</STRONG><EM>sub</EM> [,
+       \&amp;<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM> ];
+
+       The <STRONG>ShowBoxTable</STRONG> displays tabular data in titled columns
+       using a "box" of ASCII graphics, looking something like
+       this:
+
+           +------------+----------+-----+----------+
+           | Column1    | Column2  | ... | ColumnN  |
+           +------------+----------+-----+----------+
+           | Value11    | Value12  | ... | Value 1M |
+           | Value21    | Value22  | ... | Value 2M |
+           | Value31    | Value32  | ... | Value 3M |
+           |  ...       |  ...     | ... |  ...     |
+           | ValueN1    | ValueN2  | ... | Value NM |
+           +------------+----------+-----+----------+
+
+       The arguments are the same as with <STRONG>ShowTable</STRONG>.  If the
+       @<EM>titles</EM> array is empty, the header row is omitted.
+
+
+</PRE>
+<H2>ShowSimpleTable</H2><PRE>
+       Display a table of data using a simple table format.
+
+         <STRONG>ShowSimpleTable</STRONG> \@<EM>titles</EM>, \@<EM>types</EM>, \@<EM>widths</EM>, \&amp;<EM>row</EM><STRONG>_</STRONG><EM>sub</EM>
+       [, \&amp;<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM>];
+
+       The <STRONG>ShowSimpleTable</STRONG> subroutine formats data into a simple
+       table of aligned columns, in the following example:
+
+          <STRONG>-------</STRONG>  <STRONG>-------</STRONG>  <STRONG>-------</STRONG>
+          <STRONG>Value1</STRONG>   <STRONG>Value2</STRONG>   <STRONG>Value3</STRONG>
+          <STRONG>Value12</STRONG>  <STRONG>Value22</STRONG>  <STRONG>Value32</STRONG>
+
+       Columns are auto-sized by the data's widths, plus two
+       spaces between columns.  Values which are too long for the
+       maximum colulmn width are wrapped within the column.
+
+
+</PRE>
+<H2>ShowHTMLTable</H2><PRE>
+       Display a table of data nicely using HTML tables.
+
+         <STRONG>ShowHTMLTable</STRONG> \@<EM>titles</EM>, \@<EM>types</EM>, \@<EM>widths</EM>, \&amp;<EM>row</EM><STRONG>_</STRONG><EM>sub</EM> [,
+       \&amp;<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM>];
+
+       The <STRONG>ShowHTMLTable</STRONG> displays one or more rows of columns of
+       data using the HTML C&lt;\<TABLE\&gt;&gt; feature.  The arguments
+       are described in the section on <EM>ShowTable</EM>.
+
+       If the @<EM>titles</EM> array is empty, no header row is generated.
+
+       There is a variable which controls if and how hypertext
+       links are generated within the table:
+
+       <STRONG>%URL_Keys</STRONG> This is a hash array of column names (titles)
+                 and corresponding base URLs.  The values of any
+                 columns occuring as keys in the hash array will
+                 be generated as hypertext anchors using the
+                 associated base URL and the column name and
+                 value as a querystring for the "<EM>col</EM>" and "<EM>val</EM>"
+                 parameters, respectively.
+
+       For example, if we define the array:
+
+           <STRONG>$base_url</STRONG> <STRONG>=</STRONG> <STRONG>"http://www.$domain/cgi/lookup";</STRONG>
+           <STRONG>%url_cols</STRONG> <STRONG>=</STRONG> <STRONG>('Author'</STRONG> <STRONG>=&gt;</STRONG> <STRONG>$base_url,</STRONG>
+                        <STRONG>'Name'</STRONG>   <STRONG>=&gt;</STRONG> <STRONG>$base_url);</STRONG>
+
+       Then, the values in the <STRONG>Author</STRONG> column will be generated
+       with the following HTML text:
+
+           <STRONG>&lt;A</STRONG> <STRONG>HREF="http://www.$domain/cgi/lookup?col=Author?val=somevalue&gt;somevalue&lt;/A&gt;</STRONG>
+
+       and the values in the <STRONG>Name</STRONG> column will be generated with
+       the URL:
+
+           <STRONG>&lt;A</STRONG> <STRONG>HREF="http://www.$domain/cgi/lookup?col=Name?val=othervalue&gt;othervalue&lt;/A&gt;</STRONG>
+
+
+
+</PRE>
+<H2>ShowListTable</H2><PRE>
+       Display a table of data using a list format.
+
+         <STRONG>ShowListTable</STRONG> \@<EM>titles</EM>, \@<EM>types</EM>, \@<EM>widths</EM>, \&amp;<EM>row</EM><STRONG>_</STRONG><EM>sub</EM> [,
+
+       displayed wth a field name and value pair per line, with
+       records being one or more fields .  In other words, the
+       output of a table would look something like this:
+
+           <STRONG>Field1-1:</STRONG> <STRONG>Value1-1</STRONG>
+           <STRONG>Field1-2:</STRONG> <STRONG>Value1-2</STRONG>
+           <STRONG>Field1-3:</STRONG> <STRONG>Value1-3</STRONG>
+           <STRONG>...</STRONG>
+           <STRONG>Field1-N:</STRONG> <STRONG>Value1-M</STRONG>
+           <STRONG>&lt;empty</STRONG> <STRONG>line&gt;</STRONG>
+           <STRONG>Field2-1:</STRONG> <STRONG>Value2-1</STRONG>
+           <STRONG>Field2-2:</STRONG> <STRONG>Value2-2</STRONG>
+           <STRONG>Field2-3:</STRONG> <STRONG>Value2-3</STRONG>
+           <STRONG>...</STRONG>
+           <STRONG>Field2-N:</STRONG> <STRONG>Value2-N</STRONG>
+           <STRONG>...</STRONG>
+           <STRONG>FieldM-1:</STRONG> <STRONG>ValueM-1</STRONG>
+           <STRONG>FieldM-2:</STRONG> <STRONG>ValueM-2</STRONG>
+           <STRONG>...</STRONG>
+           <STRONG>FieldM-N:</STRONG> <STRONG>ValueM-N</STRONG>
+           <STRONG>&lt;empty</STRONG> <STRONG>line&gt;</STRONG>
+           <STRONG>&lt;empty</STRONG> <STRONG>line&gt;</STRONG>
+
+       Characteristics of <EM>List</EM> mode:
+
+       <STRONG>o</STRONG>         two empty lines indicate the end of data.
+
+       <STRONG>o</STRONG>         An empty field (column) may be omitted, or may
+                 have a label, but no data.
+
+       <STRONG>o</STRONG>         A long line can be continue by a null field
+                 (column):
+
+                     <STRONG>Field2:</STRONG> <STRONG>blah</STRONG> <STRONG>blah</STRONG> <STRONG>blah</STRONG>
+                           <STRONG>:</STRONG> <STRONG>blah</STRONG> <STRONG>blah</STRONG> <STRONG>blah</STRONG>
+
+
+       <STRONG>o</STRONG>         On a continuation, the null field is an
+                 arbitrary number of leading white space, a colon
+                 ':', a single blank or tab, followed by the
+                 continued text.
+
+       <STRONG>o</STRONG>         Embedded newlines are indicated by the escape
+                 mechanism "\n".  Similarly, embedded tabs are
+                 indicated with "\t", returns with "\r".
+
+       <STRONG>o</STRONG>         If the @<EM>Titles</EM> array is empty, the field names
+                 "<STRONG>Field</STRONG> <EM>NN</EM>" are used instead.
+
+
+</PRE>
+<H2>ShowTableValue</H2><PRE>
+       Prepare and return a formatted representation of a value.
+       A value argument, using its corresponding type, effective
+
+         $<EM>fmt</EM> = <STRONG>ShowTableValue</STRONG> $<EM>value</EM>, $<EM>type</EM>, $<EM>max</EM><STRONG>_</STRONG><EM>width</EM>, $<EM>width</EM>,
+       $<EM>precision</EM>;
+
+       $<EM>value</EM>    The value to be formatted.
+
+       $<EM>type</EM>     The type name of the value; eg: <STRONG>char</STRONG>, <STRONG>varchar</STRONG>,
+                 <STRONG>int</STRONG>, etc.
+
+       $<EM>max</EM><STRONG>_</STRONG><EM>width</EM>
+                 The maximum width of any value in the current
+                 value's column.  If $<EM>width</EM> is zero or null,
+                 $<EM>max</EM><STRONG>_</STRONG><EM>width</EM> is used by default.  $<EM>max</EM><STRONG>_</STRONG><EM>width</EM> is
+                 also used as a <EM>minimum</EM> width, in case $<EM>width</EM> is
+                 a smaller value.
+
+       $<EM>width</EM>    The default width of the value, obtained from
+                 the width specification of the column in which
+                 this value occurs.
+
+       $<EM>precision</EM>
+                 The precision specification, if any, from the
+                 column width specification.
+
+
+</PRE>
+<H2>VARIABLES</H2><PRE>
+       The following variables may be set by the user to affect
+       the display (with the defaults enclosed in square brackets
+       [..]):
+
+       $<STRONG>Show_Mode</STRONG> [Box]
+                 This is the default display mode when using
+                 <STRONG>ShowTable</STRONG>.  The environment variable,
+                 <STRONG>$ENV{'SHOWMODE'}</STRONG>, is used when this variable is
+                 null or the empty string.  The possible values
+                 for this variable are: <STRONG>"Box"</STRONG>, <STRONG>"List"</STRONG>, <STRONG>"Table"</STRONG>,
+                 and <STRONG>"HTML"</STRONG>.  Case is insignificant.
+
+       $<STRONG>List_Wrap_Margin</STRONG> [2]
+                 This variable's value determines how large a
+                 margin to keep before wrarpping a long value's
+                 display in a column.  This value is only used in
+                 "List" mode.
+
+       $<STRONG>Term_Columns</STRONG> [80]
+                 This variable, used in "List" mode, is used to
+                 determine how long an output line may be before
+                 wrapping it.  The environment variable,
+                 <STRONG>$ENV{'COLUMNS'}</STRONG>, is used to define this value
+                 when it is null.
+
+       $<STRONG>Max_Table_Width</STRONG> ['']
+                 This variable, when set, causes all tables to
+                 this variable is not set, which is the default
+                 case, there is no maximum table width, and no
+                 scaling will be done.
+
+       $<STRONG>No_Escape</STRONG> ['']
+                 If set, allows embedded HTML text to be included
+                 in the data displayed in an HTML-formatted
+                 table.  By default, the HTML formatting
+                 characters ("&lt;", "&gt;", and "&amp;") occuring in
+                 values are escaped.
+
+       %<STRONG>URL_Keys</STRONG> In HTML mode, this variable is used to recognize
+                 which columns are to be displayed with a
+                 corresponding hypertext anchor.  See the section
+                 on <EM>ShowHTMLTable</EM> for more details.
+
+
+</PRE>
+<H2>INTERNAL SUBROUTINES</H2><PRE>
+
+</PRE>
+<H2>calc_widths</H2><PRE>
+         <STRONG>($</STRONG><EM>num</EM><STRONG>_</STRONG><EM>cols</EM>, $<EM>widths</EM>, $<EM>precision</EM>, $<EM>max</EM><STRONG>_</STRONG><EM>widths</EM>) =
+               <STRONG>&amp;calc_widths</STRONG>( $<EM>widthspec</EM>, $<EM>titles</EM>, $<EM>rewindable</EM>,
+               <STRONG>$</STRONG><EM>row</EM><STRONG>_</STRONG><EM>sub</EM>, $<EM>fmt</EM><STRONG>_</STRONG><EM>sub</EM>, $<EM>types</EM>, $<EM>showmode</EM>);
+
+       <STRONG>DESCRIPTION</STRONG>
+
+       <STRONG>calc_widths</STRONG> is a generalized subroutine used by all the
+       <STRONG>ShowTable</STRONG> variant subroutines to setup internal variables
+       prior to formatting for display.  <STRONG>Calc_widths</STRONG> handles the
+       column width and precision analysis, including scanning
+       the data (if rewindable) for appropriate default values.
+
+       The number of columns in the data is returned, as well as
+       three arrays: the declared column widths, the column
+       precision values, and the maximum column widths.
+
+       <STRONG>RETURN</STRONG> <STRONG>VALUES</STRONG>
+
+
+       <EM>$num</EM><STRONG>_</STRONG><EM>cols</EM> is the number of columns in the data.  If the
+                 data is not rewindable, this is computed as the
+                 maximum of the number of elements in the
+                 <EM>$widthspec</EM> array and the number of elements in
+                 the <EM>$titles</EM> array.  When the data is rewindable,
+                 this is the maximum of the number of columns of
+                 each row of data.
+
+       <EM>$widths</EM>   is the column widths array ref, without the
+                 precision specs (if any).  Each column's width
+                 value is determined by the original <EM>$widthspec</EM>
+                 value and/or the maximum length of the formatted
+                 data for the column.
+
+       <EM>$precision</EM>
+                 original precision component from the
+                 <EM>$widthspec</EM>, and the data is rewindable, then the
+                 data is examined to determine the maximum
+                 default precision.
+
+       <EM>$max</EM><STRONG>_</STRONG><EM>widths</EM>
+                 is the ref to the array of maximum widths for
+                 the given columns.
+
+       <STRONG>ARGUMENTS</STRONG>
+
+
+       <EM>$widthspec</EM>
+                 A reference to an array of column width (or
+                 length) values, each given as an integer, real
+                 number, or a string value of "<EM>width</EM>.<EM>precision</EM>".
+                 If a value is zero or null, the length of the
+                 corresponding formatted data (if rewindable) and
+                 column title length are used to determine a
+                 reasonable default.
+
+                 If a column's <EM>width</EM> portion is a positive, non-
+                 zero number, then the column will be this wide,
+                 regardless of the values lengths of the data in
+                 the column.
+
+                 If the column's <EM>width</EM> portion is given as a
+                 negative number, then the positive value is used
+                 as a minimum column width, with no limit on the
+                 maximum column width.  In other words, the
+                 column will be at least <EM>width</EM> characters wide.
+
+                 If the data is not rewindable, and a column's
+                 width value is null or zero, then the length of
+                 the column title is used.  This may cause severe
+                 wrapping of data in the column, if the column
+                 data lengths are much greater than the column
+                 title widths.
+
+       <EM>$titles</EM>   The array ref to the column titles; used to
+                 determine the minimum acceptable width, as well
+                 as the default number of columns.  If the
+                 <STRONG>$titles</STRONG> array is empty, then the <STRONG>$widthspec</STRONG>
+                 array is used to determine the default number of
+                 columns.
+
+       <EM>$rewindable</EM>
+                 A flag indicating whether or not the data being
+                 formatted is rewindable.  If this is true, a
+                 pass over the data will be done in order to
+                 calculate the maximum lengths of the actual
+                 formatted data, using <EM>$fmt</EM><STRONG>_</STRONG><EM>sub</EM> (below), rather
+                 (ie: the actual column widths may be less than
+                 the declared column widths).
+
+                 If it is not desired to have the column widths
+                 dynamically adjusted, then set the <EM>$rewindable</EM>
+                 argument to 0, even if the data is rewindable.
+
+       <EM>$row</EM><STRONG>_</STRONG><EM>sub</EM>  The code reference to the subroutine which
+                 returns the data; invoked only if <EM>$rewindable</EM> is
+                 non-null.
+
+       <EM>$fmt</EM><STRONG>_</STRONG><EM>sub</EM>  The subroutine used to determine the length of
+                 the data when formatted; if this is omitted or
+                 null, the length of the data is used by default.
+                 The <EM>$fmt</EM><STRONG>_</STRONG><EM>sub</EM> is used only when the data is
+                 rewindable.
+
+       <EM>$types</EM>    An array reference to the types of each of the
+                 value columns; used only when <EM>$fmt</EM><STRONG>_</STRONG><EM>sub</EM> is
+                 invoked.
+
+       <EM>$showmode</EM> A string indicating the mode of the eventual
+                 display; one of four strings: "<STRONG>box</STRONG>", "<STRONG>table</STRONG>",
+                 "<STRONG>list</STRONG>", and "<STRONG>html</STRONG>".  Used to adjust widths for
+                 formatting requirements.
+
+
+</PRE>
+<H2>putcell</H2><PRE>
+         $<EM>wrapped</EM> = &amp;<STRONG>putcell</STRONG>( \@<EM>cells</EM>, $<EM>c</EM>, $<EM>cell</EM><STRONG>_</STRONG><EM>width</EM>, \@<EM>prefix</EM>,
+       \@<EM>suffix</EM>, $<EM>wrap</EM><STRONG>_</STRONG><EM>flag</EM> );
+
+       Output the contents of an array cell at $<EM>cell</EM>[$<EM>c</EM>], causing
+       text longer than $<EM>cell</EM><STRONG>_</STRONG><EM>width</EM> to be saved for output on
+       subsequent calls.  Prefixing the output of each cell's
+       value is a string from the two-element array @<EM>prefix</EM>.
+       Suffixing each cell's value is a string from the two-
+       element array @<EM>suffix</EM>.  The first element of either array
+       is selected when $<EM>wrap</EM><STRONG>_</STRONG><EM>flag</EM> is zero or null, or when there
+       is no more text in the current to be output.  The second
+       element is selected when $<EM>wrap</EM><STRONG>_</STRONG><EM>flag</EM> is non-zero, and when
+       there is more text in the current cell to be output.
+
+       In the case of text longer than $<EM>cell</EM><STRONG>_</STRONG><EM>width</EM>, a non-zero
+       value is returned.
+
+       Cells with undefined data are not output, nor are the
+       prefix or suffix strings.
+
+
+</PRE>
+<H2>center</H2><PRE>
+       Center a string within a given width.
+
+         $<EM>field</EM> = <STRONG>center</STRONG> $<EM>string</EM>, $<EM>width</EM>;
+
+       Compute the maximum value from a list of values.
+
+         $<EM>max</EM> = &amp;<STRONG>max</STRONG>( @<EM>values</EM> );
+
+
+</PRE>
+<H2>min</H2><PRE>
+       Compute the minum value from a list of values.
+
+         $<EM>min</EM> = &amp;<STRONG>min</STRONG>( @<EM>values</EM> );
+
+
+</PRE>
+<H2>max_length</H2><PRE>
+       Compute the maximum length of a set of strings in an array
+       reference.
+
+         $<EM>maxlength</EM> = &amp;<STRONG>max_length</STRONG>( \@<EM>array</EM><STRONG>_</STRONG><EM>ref</EM> );
+
+
+</PRE>
+<H2>htmltext</H2><PRE>
+       Translate regular text for output into an HTML document.
+       This means certain characters, such as "&amp;", "&gt;", and "&lt;"
+       must be escaped.
+
+         $<EM>output</EM> = &amp;<STRONG>htmltext</STRONG>( $<EM>input</EM> );
+
+
+</PRE>
+<H2>AUTHOR</H2><PRE>
+       Alan K. Stebbens &lt;aks@sgi.com&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,1727 @@
+<!-- $Id: Data-ShowTable-3.3.html,v 3.3.1.1 1997/02/26 03:28:05 astebben Exp $ -->
+<HTML><HEAD>
+<CENTER><TITLE>Data-ShowTable-3.3</TITLE>
+</HEAD>
+<BODY></CENTER><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_name_0">
+NAME</A>
+</H1>
+<STRONG>ShowTable</STRONG> - routines to display tabular data in several formats.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_usage_0">
+USAGE</A>
+</H1>
+<CODE>use Data::ShowTable;</CODE>
+<p><STRONG>ShowTable</STRONG> { <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p><STRONG>ShowTable</STRONG> <EM>\<STRONG>@titles</STRONG></EM>, <EM>\<STRONG>@types</STRONG></EM>, <EM>\<STRONG>@widths</STRONG></EM>, <EM>\&amp;row_sub</EM> [, <EM>\&amp;fmt_sub</EM> ];
+<p><STRONG>ShowDatabases</STRONG> <EM>\<STRONG>@dbnames</STRONG></EM>;
+<p><STRONG>ShowDatabases</STRONG> { <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p><STRONG>ShowTables</STRONG> <EM>\<STRONG>@tblnames</STRONG></EM>;
+<p><STRONG>ShowTables</STRONG> { <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p><STRONG>ShowColumns</STRONG> <EM>\<STRONG>@columns</STRONG></EM>, <EM>\<STRONG>@col_types</STRONG></EM>, <EM>\<STRONG>@col_lengths</STRONG></EM>, <EM>\<STRONG>@col_attrs</STRONG></EM>;
+<p><STRONG>ShowColumns</STRONG> { <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p><STRONG>ShowBoxTable</STRONG> <EM>\<STRONG>@titles</STRONG></EM>, <EM>\<STRONG>@types</STRONG></EM>, <EM>\<STRONG>@widths</STRONG></EM>, <EM>\&amp;row_sub</EM> [, <EM>\&amp;fmt_sub</EM> ];
+<p><STRONG>ShowBoxTable</STRONG> { <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p><STRONG>ShowSimpleTable</STRONG> <EM>\<STRONG>@titles</STRONG></EM>, <EM>\<STRONG>@types</STRONG></EM>, <EM>\<STRONG>@widths</STRONG></EM>, <EM>\&amp;row_sub</EM> [, <EM>\&amp;fmt_sub</EM>];
+<p><STRONG>ShowSimpleTable</STRONG> { <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p><STRONG>ShowHTMLTable</STRONG> <EM>\<STRONG>@titles</STRONG></EM>, <EM>\<STRONG>@types</STRONG></EM>, <EM>\<STRONG>@widths</STRONG></EM>, <EM>\&amp;row_sub</EM> [, <EM>\&amp;fmt_sub</EM>];
+<p><STRONG>ShowHTMLTable</STRONG> { <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showlisttable_0">ShowListTable</A>
+ <EM>\<STRONG>@titles</STRONG></EM>, <EM>\<STRONG>@types</STRONG></EM>, <EM>\<STRONG>@widths</STRONG></EM>, <EM>\&amp;row_sub</EM> [, <EM>\&amp;fmt_sub</EM>];
+<p>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showlisttable_0">ShowListTable</A>
+ { <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p><CODE>package Data::ShowTable</CODE>;
+<p>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_show_mode_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_show_mode_1">$Show_Mode</A>
+</A>
+ = '<EM>mode</EM>';
+<p>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_table_width_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_table_width_0">$Max_Table_Width</A>
+</A>
+ = <EM>number</EM>;
+<p>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_list_width_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_list_width_0">$Max_List_Width</A>
+</A>
+ = <EM>number</EM>;
+<p>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_no_escape_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_no_escape_1">$No_Escape</A>
+</A>
+ = <EM>flag</EM>;
+<p>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_url_keys_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_url_keys_1">%URL_Keys</A>
+</A>
+ = { ``<EM><STRONG>$colname</STRONG></EM>'' =&gt; ``<EM><STRONG>$col_URL</STRONG></EM>'', ... };
+<p><STRONG><STRONG>@Title_Formats</STRONG></STRONG> = ( <EM>fmt1_html</EM>, &lt;fmt2_html&gt;, ... );
+<p><STRONG><STRONG>@Data_Formats</STRONG></STRONG> = ( <EM>fmt1_html</EM>, &lt;fmt2_html&gt;, ... );
+<p><STRONG>ShowRow</STRONG> <EM><STRONG>$rewindflag</STRONG></EM>, <EM>\<STRONG>$index</STRONG></EM>, <EM><STRONG>$col_array_1</STRONG></EM> [, <EM><STRONG>$col_array_2</STRONG></EM>, ...;]
+<p><EM><STRONG>$fmt</STRONG></EM> = 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showtablevalue_0">ShowTableValue</A>
+ 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_1">$value</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_type_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_type_0">$type</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_1">$width</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_precision_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_precision_1">$precision</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showmode_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showmode_0">$showmode</A>
+</A>
+;
+<p>[<EM><STRONG>$plaintext</STRONG></EM> = ] 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_plaintext_0">PlainText</A>
+ [<EM><STRONG>$htmltext</STRONG></EM>];
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_description_0">
+DESCRIPTION</A>
+</H1>
+The <STRONG>ShowTable</STRONG> module provides subroutines to display tabular data,
+typially from a database, in nicely formatted columns, in several formats.
+Its arguments can either be given in a fixed order, or, as
+a single, anonymous hash-array.
+<p>The output format for any one invocation can be one of four possible styles:
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_box_0">
+Box</A>
+
+</STRONG>
+<DD>
+A tabular format, with the column titles and the entire table surrounded by a
+``box'' of ``<CODE>+</CODE>'', ``<CODE>-</CODE>'', and ``<CODE>|</CODE>'' characters.  See <EM>``ShowBoxTable''</EM> for details.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_table_0">
+Table</A>
+
+</STRONG>
+<DD>
+A simple tabular format, with columns automatically aligned, with column titles.
+See <EM>``ShowSimpleTable''</EM>.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_list_0">
+List</A>
+
+</STRONG>
+<DD>
+A <EM>list</EM> style, where columns of data are listed as a <EM>name</EM>:
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+ pair, one
+pair per line, with rows being one or more column values, separated by an empty line.
+See <EM>``ShowListTable''</EM>.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_html_0">
+HTML</A>
+
+</STRONG>
+<DD>
+The data is output as an HTML <EM>TABLE</EM>, suitable for display through a <EM>Web</EM>-client.
+See <EM>``ShowHTMLTable''</EM>.  Input can either be plain ASCII text, or text
+with embedded HTML elements, depending upon an argument or global parameter.
+<p>
+</DL>
+The subroutines which perform these displays are listed below..
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_exported_0">
+EXPORTED NAMES</A>
+</H1>
+This module exports the following subroutines: 
+<p>
+<XMP>
+ ShowDatabases    - show list of databases
+ ShowTables       - show list of tables
+ ShowColumns      - show table of column info
+ ShowTable        - show a table of data
+ ShowRow          - show a row from one or more columns
+ ShowTableValue   - show a single column's value
+ ShowBoxTable     - show a table of data in a box
+ ShowListTable    - show a table of data in a list
+ ShowSimpleTable  - show a table of data in a simple table
+ ShowHTMLTable    - show a table of data using HTML
+ PlainText        - convert HTML text into plain text
+
+</XMP>
+<p>All of these subroutines, and others, are described in detail in the
+following sections.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_modules_0">
+MODULES</A>
+</H1>
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_showtable_0">
+ShowTable </A>
+</H1>
+Format and display the contents of one or more rows of data.
+<p><STRONG>  </STRONG><STRONG>ShowTable</STRONG> { <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p><STRONG>  </STRONG><STRONG>ShowTable</STRONG> <EM>\<STRONG>@titles</STRONG></EM>, <EM>\<STRONG>@types</STRONG></EM>, <EM>\<STRONG>@widths</STRONG></EM>, <EM>\&amp;row_sub</EM> 
+[, <EM>\&amp;fmt_sub</EM> [, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+ ] [, <EM><STRONG>$show_mode</STRONG></EM> ] ];
+<p>The <STRONG>ShowTable</STRONG> subroutine displays tabular data aligned in columns,
+with headers.  <STRONG>ShowTable</STRONG> supports four <EM>modes</EM> of display: 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_box_0">Box</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_table_0">Table</A>
+,
+
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_list_0">List</A>
+, and 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_html_0">HTML</A>
+.  Each mode is described separately below.
+<p>The arguments to <STRONG>ShowTable</STRONG> may be given in one of two ways: as a
+hashed-array, or by a combination of fixed order arguments, and some
+package-global variable settings.  The hash-array parameters correspond
+to the fixed arguments and the global-parameter settings.
+<p>In the list below, both the hash-array parameter name and the
+fixed-order argument name is given as the value.  In the case where
+there is no fixed-order argument for a given parameter-value pair, then
+the corresponding global variable name is given.
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_titles_0">
+titles</A>
+ =&gt; <EM>\<STRONG>@titles</STRONG></EM>
+</STRONG>
+<DD>
+A reference to an array of column names, or titles.  If a particular column name
+is null, then the string <CODE>Field_I<num</CODE&gt;&gt; is used by default.  To have a column
+have no title, use the empty string.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_types_0">
+types</A>
+ =&gt; <EM>\<STRONG>@types</STRONG></EM>
+</STRONG>
+<DD>
+A reference to an array of types, one for each column.  These types are
+passed to the <EM>fmt_sub</EM> for appropriate formatting.  Also, if a column
+type matches the regexp ``<CODE>/text|char|string/i</CODE>'', then the column
+alignment will be left-justified, otherwise it will be right-justified.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_widths_0">
+widths</A>
+ =&gt; <EM>\<STRONG>@widths</STRONG></EM>
+</STRONG>
+<DD>
+A reference to an array of column widths, which may be given as an integer, or
+as a string of the form: ``
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_0">width</A>
+.
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_precision_0">precision</A>
+''.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_row_sub_0">
+row_sub</A>
+ =&gt; <EM>\&amp;row_sub</EM>
+</STRONG>
+<DD>
+A reference to a subroutine which successively returns rows of values in an array.
+It is called for two purposes, each described separately:
+<p>* To fetch successive rows of data:
+<p>
+<XMP>
+    @row = &$row_sub(0);
+
+</XMP>
+<p>When given a null, zero, or empty argument, the next row is returned.
+<p>* To initialize or rewind the data traversal.
+<p>
+<XMP>
+    $rewindable = &$row_sub(1);
+
+</XMP>
+<p>When invoked with a non-null argument, the subroutine should rewind its
+row pointer to start at the first row of data.  If the data which
+
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_row_sub_0">row_sub</A>
+ is traversing is not rewindable, it must return zero or null.
+If the data is rewindable, a non-null, non-zero value should be returned.
+<p>The 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_row_sub_0">row_sub</A>
+ must expect to be invoked once with a non-null argument,
+in order to discover whether or not the data is rewindable.  If the data
+cannot be rewound, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_row_sub_0">row_sub</A>
+ will thereafter only be called with a zero
+argument. 
+<p>Specifically, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_row_sub_0">row_sub</A>
+ subroutine is used in this manner:
+<p>
+<XMP>
+    $rewindable = &$row_sub(1);
+    if ($rewindable) {
+        while ((@row = &$row_sub(0)), $#row >= 0) {
+            # examine lengths for optimal formatting
+        }
+        &$row_sub(1);   # rewind
+    }
+    while ((@row = &$row_sub(0)), $#row >= 0) {
+        # format the data
+    }
+
+</XMP>
+<p>The consequence of data that is not rewindable, a reasonably nice table
+will still be formatted, but it may contain fairly large amounts of
+whitespace for wide columns.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_fmtsub_0">
+fmtsub</A>
+ =&gt; <EM>\&amp;fmt_sub</EM>
+</STRONG>
+<DD>
+A reference to a subroutine which formats a value, according to its
+type, width, precision, and the current column width.  It is invoked
+either with a fixed list of arguments, or with a hash-array of parameter
+and value pairs.
+<p>
+<XMP>
+  $string = &fmt_sub { I<parameter> => I<value>, ... };
+  $string = &fmt_sub($value, $type, $max_width, $width, $precision)
+
+</XMP>
+<p>If <EM>\&amp;fmt_sub</EM> is omitted, then a default subroutine, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showtablevalue_0">ShowTableValue</A>
+, 
+will be used, which will use Perl's standard string formatting rules.
+<p>The arguments to <EM>\&amp;fmt_sub</EM>, either as values passed in a fixed
+order, or as part of the parameter value pair, are described in the
+section on <EM>"ShowTableValue</EM> below.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_max_width_1">
+max_width</A>
+ =&gt; <EM>number</EM>,
+</STRONG>
+<DD>
+The maximum table width, including the table formatting characters.  If
+not given, defaults to the global variable 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_table_width_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_table_width_0">$Max_Table_Width</A>
+</A>
+;
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_show_mode_0">
+show_mode</A>
+ =&gt; '<EM>mode</EM>',
+</STRONG>
+<DD>
+The display mode of the output.  One of five strings: <CODE>'Box'</CODE>,
+<CODE>'Table'</CODE>, <CODE>'Simple'</CODE>, <CODE>'List'</CODE>, and <CODE>'HTML'</CODE>.
+<p>
+</DL>
+.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_showdatabases_0">
+ShowDatabases </A>
+</H1>
+Show a list of database names.
+<p><STRONG>  </STRONG><STRONG>ShowDatabases</STRONG> <EM>\<STRONG>@dbnames</STRONG></EM>;
+<p><STRONG>  </STRONG><STRONG>ShowDatabases</STRONG> { 'data' =&gt; <EM>\<STRONG>@dbnames</STRONG></EM>, <EM>parameter</EM> =&gt;
+
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ...};
+<p><STRONG>ShowDatabases</STRONG> is intended to be used to display a list of database
+names, under the column heading of ``Databases''.  It is a special case
+usage of <STRONG>ShowTable</STRONG> (and can thus be passed any parameter suitable 
+for <STRONG>ShowTable</STRONG>.
+<p>The argument, <EM>\<STRONG>@dbnames</STRONG></EM>, is a reference to an array of strings, used
+as the values of the single column display.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_showtables_0">
+ShowTables </A>
+</H1>
+Show an array of table names.
+<p><STRONG>  </STRONG><STRONG>ShowTables</STRONG> <EM>\<STRONG>@tblnames</STRONG></EM>;
+<p><STRONG>  </STRONG><STRONG>ShowTables</STRONG> { 'data' =&gt; <EM>\<STRONG>@tblnames</STRONG></EM>, <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ...};
+<p><STRONG>ShowTables</STRONG> is used to display a list of table names, under the column
+heading of ``Tables''.  It is a special case usage of <STRONG>ShowTable</STRONG>, and can
+be passed any <EM>``ShowTable''</EM> argument parameter.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_showcolumns_0">
+ShowColumns </A>
+</H1>
+Display a table of column names, types, and attributes.
+<p><STRONG>  </STRONG><STRONG>ShowColumns</STRONG> { <EM>parameter</EM> =&gt; <EM>values</EM>, ... };
+<p><STRONG>  </STRONG><STRONG>ShowColumns</STRONG> <EM>\<STRONG>@columns</STRONG></EM>, <EM>\<STRONG>@col_types</STRONG></EM>, <EM>\<STRONG>@col_lengths</STRONG></EM>, <EM>\<STRONG>@col_attrs</STRONG></EM>;
+<p>The <STRONG>ShowColumns</STRONG> subroutine displays a table of column names, types, lengths,
+and other attributes in a nicely formatted table.  It is a special case usage
+of <STRONG>ShowTable</STRONG>, and can be passed any argument suitable for <EM>``ShowTable''</EM>;
+<p>The arguments are:
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_columns_0">
+columns</A>
+ = <EM>\<STRONG>@columns</STRONG></EM>
+</STRONG>
+<DD>
+An array of column names.  This provides the value for the first column
+of the output.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_col_types_0">
+col_types</A>
+ = <EM>\<STRONG>@col_types</STRONG></EM>
+</STRONG>
+<DD>
+An array of column types names.  This provides the value for the second
+column. 
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_col_lengths_0">
+col_lengths</A>
+ = <EM>\<STRONG>@col_lengths</STRONG></EM>
+</STRONG>
+<DD>
+An array of maximum lengths for corresponding columns.  This provides
+the value for the third column of the output.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_col_attrs_0">
+col_attrs</A>
+ = <EM>\<STRONG>@col_attrs</STRONG></EM>
+</STRONG>
+<DD>
+An array of column attributes array references (ie: an array of arrays).
+The attributes array for the first column are at ``<EM><STRONG>$col_attrs</STRONG></EM>-\&gt;[0]''.
+The first attribute of the second column is ``<EM><STRONG>$col_attrs</STRONG></EM>-\&gt;[1][0]''.
+<p>
+</DL>
+The columns, types, lengths, and attributes are displayed in a table.with the column headings: ``Column'', ``Type'', ``Length'', and ``Attributes''.
+This is a special case usage of <STRONG>ShowTable</STRONG>, and can be passed
+additional arguments suitable for <EM>``ShowTable''</EM>.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_showboxtable_0">
+ShowBoxTable </A>
+</H1>
+Show tabular data in a box.
+<p><STRONG>  </STRONG><STRONG>ShowBoxTable</STRONG> { <EM>parameter</EM> = 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p><STRONG>  </STRONG><STRONG>ShowBoxTable</STRONG> <EM>\<STRONG>@titles</STRONG></EM>, <EM>\<STRONG>@types</STRONG></EM>, <EM>\<STRONG>@widths</STRONG></EM>, <EM>\&amp;row_sub</EM>
+<STRONG>      </STRONG>[, [ <EM>\&amp;fmt_sub</EM> ] [, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+ ] ];
+<p>The <STRONG>ShowBoxTable</STRONG> displays tabular data in titled columns using a ``box'' 
+of ASCII graphics, looking something like this:
+ 
+<p>
+<XMP>
+        +------------+----------+-----+----------+ 
+        | Column1    | Column2  | ... | ColumnN  |
+        +------------+----------+-----+----------+
+        | Value11    | Value12  | ... | Value 1M |
+        | Value21    | Value22  | ... | Value 2M |
+        | Value31    | Value32  | ... | Value 3M |
+        |  ...       |  ...     | ... |  ...     |
+        | ValueN1    | ValueN2  | ... | Value NM |
+        +------------+----------+-----+----------+
+
+</XMP>
+<p>The arguments are the same as with <EM>``ShowTable''</EM>.  If the <EM><STRONG>@titles</STRONG></EM> array
+is empty, the header row is omitted.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_showsimpletable_0">
+ShowSimpleTable </A>
+</H1>
+Display a table of data using a simple table format.
+<p><STRONG>  </STRONG><STRONG>ShowSimpleTable</STRONG> <EM>\<STRONG>@titles</STRONG></EM>, <EM>\<STRONG>@types</STRONG></EM>, <EM>\<STRONG>@widths</STRONG></EM>, <EM>\&amp;row_sub</EM> [, <EM>\&amp;fmt_sub</EM>];
+<p><STRONG>  </STRONG><STRONG>ShowSimpleTable</STRONG> { <EM>parameter</EM> =&gt; <EM>values</EM>, ... };
+<p>The <STRONG>ShowSimpleTable</STRONG> subroutine formats data into a simple table of
+aligned columns, in the following example:
+<p>
+<XMP>
+   Column1  Column2  Column3
+   -------  -------  -------
+   Value1   Value2   Value3
+   Value12  Value22  Value32
+
+</XMP>
+<p>Columns are auto-sized by the data's widths, plus two spaces between columns.
+Values which are too long for the maximum colulmn width are wrapped within
+the column.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_showhtmltable_0">
+ShowHTMLTable </A>
+</H1>
+Display a table of data nicely using HTML tables.
+<p><STRONG>  </STRONG><STRONG>ShowHTMLTable</STRONG> { <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p><STRONG>  </STRONG><STRONG>ShowHTMLTable</STRONG> <EM>\<STRONG>@titles</STRONG></EM>, <EM>\<STRONG>@types</STRONG></EM>, <EM>\<STRONG>@widths</STRONG></EM>, <EM>\&amp;row_sub</EM>
+[, <EM>\&amp;fmt_sub</EM> [, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+ [, <EM>\
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_url_keys_1">%URL_Keys</A>
+</EM> [, <EM><STRONG>$no_escape</STRONG></EM> 
+[, <EM>\<STRONG>@title_formats</STRONG> [, I<\<STRONG>@data_formats</STRONG> [, I<<STRONG>$table_attrs</STRONG></EM> ] ] ] ] ] ] ];
+<p>The <STRONG>ShowHTMLTable</STRONG> displays one or more rows of columns of data using
+the HTML <CODE>\&lt;TABLE\</CODE&gt;&gt; feature.  In addition to the usual parameter arguments
+of <EM>``ShowTable''</EM>, the following parameter arguments are defined:
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_url_keys_0">
+url_keys</A>
+ =&gt; <EM>\
+<A NAME="Data-ShowTable-3.3_url_keys_1">
+%URL_Keys</A>
+</EM>,
+</STRONG>
+<DD>
+This is a hash array of column names (titles) and corresponding base
+URLs.  The values of any column names or indexes occuring as keys in
+the hash array will be generated as hypertext anchors using the
+associated <EM>printf</EM>-like string as the base URL. Either the column name
+or the column index (beginning with 1) may be used as the hash key.
+<p>In the string value, these macros can be substituted:  
+<p>``<CODE><STRONG>%K</STRONG></CODE>'' is replaced with the column name.
+<p>``<CODE><STRONG>%V</STRONG></CODE>'' is replaced with the column value;
+<p>``<CODE><STRONG>%I</STRONG></CODE>'' is replaced with the column index.
+<p>For example, if we define the array:
+<p>
+<XMP>
+    $base_url = "http://www.$domain/cgi/lookup?col=%K?val=%V";
+    %url_cols = ('Author' => $base_url,
+                 'Name'   => $base_url);
+
+</XMP>
+<p>Then, the values in the <CODE>Author</CODE> column will be generated with the following
+HTML text:
+<p>
+<XMP>
+    <A HREF="http://www.$domain/cgi/lookup?col=Author?val=somevalue>somevalue</A>
+
+</XMP>
+<p>and the values in the <CODE>Name</CODE> column will be generated with the URL:
+<p>
+<XMP>
+    <A HREF="http://www.$domain/cgi/lookup?col=Name?val=othervalue>othervalue</A>
+
+</XMP>
+<p>If this variable is not given, it will default to the global variable
+<CODE>\
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_url_keys_1">%URL_Keys</A>
+</CODE>.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_no_escape_0">
+no_escape</A>
+ =&gt; <EM>boolean</EM>,
+</STRONG>
+<DD>
+Unless <STRONG><STRONG>$no_escape</STRONG></STRONG> is set, HTML-escaping is performed on the data
+values in order to properly display the special HTML formatting
+characters : '\&lt;', '\&gt;', and '&amp;'.  If you wish to display data with
+embedded HTML text, you must set <STRONG><STRONG>$no_escape</STRONG></STRONG>.
+<p>Enabling embedded HTML, turns on certain heuristics which enable the
+user to more completely define appearance of the table.  For instance,
+any <CODE>\&lt;TR\</CODE&gt;&gt; tokens found embedded *anywhere* within a row of data will
+be placed at the front of the row, within the generated <CODE>\&lt;TR\</CODE&gt;&gt;.
+<p>Similarly, a row of data containing the <CODE>\&lt;THEAD\</CODE&gt;&gt; or <CODE>\&lt;TFOOT\</CODE&gt;&gt;
+tokens, and their closing counterparts, will begin and end, respectively
+a table header or footer data.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_title_formats_0">
+title_formats</A>
+ =&gt; <EM>\<STRONG>@title_formats</STRONG></EM>,
+</STRONG>
+<DD>
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_tformats_0">
+tformats</A>
+ =&gt; <EM>\<STRONG>@title_formats</STRONG></EM>,
+</STRONG>
+<DD>
+An array of HTML formatting elements for the column titles, one for each
+column.  Each array element is a list of one or more HTML elements,
+given as <CODE>\&lt;ELEMENT\</CODE&gt;&gt; or plainly, <CODE>ELEMENT</CODE>, and separated by a comma
+<CODE>','</CODE>, semi-colon <CODE>';'</CODE>, or vertical bar <CODE>'|'</CODE>.  Each given HTML
+element is prepended to the corresponding column title, in the order
+given.  The corresponding HTML closing elements are appended in the
+opposite order.
+<p>For example, if <EM>\<STRONG>@title_formats</STRONG></EM> contains the two elements:
+<p>
+<XMP>
+    [ 'FONT SIZE=+2,BOLD', 'FONT COLOR=red,EM' ]
+
+</XMP>
+<p>then the text output for the title of the first column would be:
+<p>
+<XMP>
+    <FONT SIZE=+2><BOLD>I<column_1_title></BOLD></FONT>
+
+</XMP>
+<p>If 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_title_formats_0">title_formats</A>
+ is omitted, the global variable <STRONG><STRONG>@Title_Formats</STRONG></STRONG>
+is used by default.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_data_formats_0">
+data_formats</A>
+ =&gt; <EM>\<STRONG>@data_formats</STRONG></EM>,
+</STRONG>
+<DD>
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_dformats_0">
+dformats</A>
+ =&gt; <EM>\<STRONG>@data_formats</STRONG></EM>,
+</STRONG>
+<DD>
+Similar to 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_title_formats_0">title_formats</A>
+, this array provides HTML formatting for
+the columns of each row of data.  If 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_data_formats_0">data_formats</A>
+ is omitted or
+null, then the global variable <STRONG>\<STRONG>@Data_Formats</STRONG></STRONG> is used by default.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_table_attrs_0">
+table_attrs</A>
+ =&gt; <EM><STRONG>$table_attrs</STRONG></EM>,
+</STRONG>
+<DD>
+This variable defines a string of attributes to be inserted within the
+<CODE>\&lt;TABLE\</CODE&gt;&gt; token.  For example, if the user wishes to have no table
+border:
+<p>
+<XMP>
+    ShowHTMLTable { 
+        ...
+        table_attrs => 'BORDER=0', 
+        ...
+    };
+
+</XMP>
+<p>
+</DL>
+.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_showlisttable_0">
+ShowListTable</A>
+</H1>
+Display a table of data using a list format.
+<p><STRONG>  </STRONG>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showlisttable_0">ShowListTable</A>
+ { <EM>parameter</EM> =&gt; 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_0">value</A>
+, ... };
+<p><STRONG>  </STRONG>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showlisttable_0">ShowListTable</A>
+ <EM>\<STRONG>@titles</STRONG></EM>, <EM>\<STRONG>@types</STRONG></EM>, <EM>\<STRONG>@widths</STRONG></EM>, <EM>\&amp;row_sub</EM> 
+[, <EM>\&amp;fmt_sub</EM> [, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+ [, <EM><STRONG>$wrap_margin</STRONG></EM> ] ] ];
+<p>The arguments for 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showlisttable_0">ShowListTable</A>
+ are the same as for <EM>``ShowTable''</EM>,
+except for those described next.
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_max_width_1">
+max_width</A>
+ = <EM>number</EM>,
+</STRONG>
+<DD>
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_wrap_margin_0">
+wrap_margin</A>
+ = <EM>number</EM>,
+</STRONG>
+<DD>
+Lines are truncated, and wrapped when their length exceeds
+
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+.  Wrapping is done on a word-basis, unless the resulting
+right margin exceeds <EM><STRONG>$wrap_margin</STRONG></EM>, in which case the line is simply
+truncated at the 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+ limit.
+<p>The 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+ variable defaults to 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_list_width_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_list_width_0">$Max_List_Width</A>
+</A>
+.  The
+<EM><STRONG>$wrap_margin</STRONG></EM> defaults to 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_list_wrap_margin_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_list_wrap_margin_0">$List_Wrap_Margin</A>
+</A>
+.
+<p>
+</DL>
+In 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_list_0">List</A>
+ mode, columns (called ``fields'' in List mode) are displayed.wth a field name and value pair per line, with records being one or
+more fields .  In other words, the output of a table would
+look something like this:
+<p>
+<XMP>
+    Field1_1: Value1_1
+    Field1_2: Value1_2
+    Field1_3: Value1_3
+    ...
+    Field1-N: Value1_M
+    <empty line>
+    Field2_1: Value2_1
+    Field2_2: Value2_2
+    Field2_3: Value2_3
+    ...
+    Field2_N: Value2_N
+    ...
+    FieldM_1: ValueM_1
+    FieldM_2: ValueM_2
+    ...
+    FieldM_N: ValueM_N
+    <empty line>
+    <empty line>
+
+</XMP>
+<p>Characteristics of 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_list_0">List</A>
+ mode:
+<p>
+<UL>
+<LI>two empty lines indicate the end of data.
+<p>
+<LI>An empty field (column) may be omitted, or may have a label, but no
+data.
+<p>
+<LI>A long line can be continue by a null field (column):
+<p>
+<XMP>
+    Field2: blah blah blah
+          : blah blah blah
+
+</XMP>
+<p>
+<LI>On a continuation, the null field is an arbitrary number of leading
+white space, a colon ':', a single blank or tab, followed by the
+continued text.
+<p>
+<LI>Embedded newlines are indicated by the escape mechanism ``\n''.
+Similarly, embedded tabs are indicated with ``\t'', returns with ``\r''. 
+<p>
+<LI>If the <EM><STRONG>@titles</STRONG></EM> array is empty, the field names ``<CODE>Field_</CODE><EM>NN</EM>'' are used
+instead.
+<p>
+</UL>
+.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_showrow_0">
+ShowRow </A>
+</H1>
+Fetch rows successively from one or more columns of data.
+<p><STRONG>  </STRONG><STRONG>ShowRow</STRONG> <EM><STRONG>$rewindflag</STRONG></EM>, <EM>\<STRONG>$index</STRONG></EM>, <EM><STRONG>$col_array_1</STRONG></EM> [, <EM><STRONG>$col_array_2</STRONG></EM>, ...;]
+<p>The <STRONG>ShowRow</STRONG> subroutine returns a row of data from one or more
+columns of data.  It is designed to be used as a <EM>callback</EM> routine,
+within the <STRONG>ShowTable</STRONG> routine.   It can be used to select elements
+from one or more array reference arguments.
+<p>If passed two or more array references as arguments, elements of the
+arrays selected by <EM><STRONG>$index</STRONG></EM> are returned as the ``row'' of data.
+<p>If a single array argument is passed, and each element of the array is
+itself an array, the subarray is returned as the ``row'' of data.
+<p>If the <EM><STRONG>$rewindflag</STRONG></EM> flag is set, then the <EM><STRONG>$index</STRONG></EM> pointer is reset
+to zero, and ``true'' is returned (a scalar 1).  This indicates that the
+data is rewindable to the <STRONG>ShowTable</STRONG> routines.
+<p>When the <EM><STRONG>$rewindflag</STRONG></EM> is not set, then the current row of data, as
+determined by <EM><STRONG>$index</STRONG></EM> is returned, and <EM><STRONG>$index</STRONG></EM> will
+have been incremented.
+<p>An actual invocation (from <STRONG>ShowColumns</STRONG>) is:
+<p>
+<XMP>
+  ShowTable \@titles, \@types, \@lengths, 
+      sub { &ShowRow( $_[0], \$current_row, $col_names, $col_types,
+                      $col_lengths, \@col_attrs); };
+
+</XMP>
+<p>In the example above, after each invocation, the <EM><STRONG>$current_row</STRONG></EM> argument 
+will have been incremented.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_showtablevalue_0">
+ShowTableValue</A>
+</H1>
+Prepare and return a formatted representation of a value.  A value
+argument, using its corresponding type, effective width, and precision
+is formatted into a field of a given maximum width. 
+<p><STRONG>  </STRONG><EM><STRONG>$fmt</STRONG></EM> = 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showtablevalue_0">ShowTableValue</A>
+ 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_value_1">$value</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_type_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_type_0">$type</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_1">$width</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_precision_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_precision_1">$precision</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showmode_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showmode_0">$showmode</A>
+</A>
+;
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_width_0">
+width</A>
+ =&gt; 
+<A NAME="Data-ShowTable-3.3_width_1">
+
+<A NAME="Data-ShowTable-3.3_width_1">
+$width</A>
+</A>
+
+</STRONG>
+<DD>
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_width_1">
+
+<A NAME="Data-ShowTable-3.3_width_1">
+$width</A>
+</A>
+
+</STRONG>
+<DD>
+The width of the current value.  If omittied, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+ is assumed.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_precision_0">
+precision</A>
+ =&gt; 
+<A NAME="Data-ShowTable-3.3_precision_1">
+
+<A NAME="Data-ShowTable-3.3_precision_1">
+$precision</A>
+</A>
+
+</STRONG>
+<DD>
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_precision_1">
+
+<A NAME="Data-ShowTable-3.3_precision_1">
+$precision</A>
+</A>
+
+</STRONG>
+<DD>
+The number of decimal digits; zero is assumed if omittied.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_value_0">
+value</A>
+ =&gt; 
+<A NAME="Data-ShowTable-3.3_value_1">
+
+<A NAME="Data-ShowTable-3.3_value_1">
+$value</A>
+</A>
+
+</STRONG>
+<DD>
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_value_1">
+
+<A NAME="Data-ShowTable-3.3_value_1">
+$value</A>
+</A>
+
+</STRONG>
+<DD>
+The value to be formatted.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_type_0">
+
+<A NAME="Data-ShowTable-3.3_type_0">
+$type</A>
+</A>
+
+</STRONG>
+<DD>
+The type name of the value; eg: <CODE>char</CODE>, <CODE>varchar</CODE>, <CODE>int</CODE>, etc.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_maxwidth_0">
+maxwidth</A>
+ =&gt; 
+<A NAME="Data-ShowTable-3.3_max_width_2">
+
+<A NAME="Data-ShowTable-3.3_max_width_2">
+$max_width</A>
+</A>
+
+</STRONG>
+<DD>
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_max_width_2">
+
+<A NAME="Data-ShowTable-3.3_max_width_2">
+$max_width</A>
+</A>
+
+</STRONG>
+<DD>
+The maximum width of any value in the current value's column.  If 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_1">$width</A>
+</A>
+
+is zero or null, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+ is used by default.  
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+ is also
+used as a <EM>minimum</EM> width, in case 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_1">$width</A>
+</A>
+ is a smaller value.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_width_1">
+
+<A NAME="Data-ShowTable-3.3_width_1">
+$width</A>
+</A>
+
+</STRONG>
+<DD>
+The default width of the value, obtained from the width specification of the
+column in which this value occurs.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_precision_1">
+
+<A NAME="Data-ShowTable-3.3_precision_1">
+$precision</A>
+</A>
+
+</STRONG>
+<DD>
+The precision specification, if any, from the column width specification.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_showmode_0">
+
+<A NAME="Data-ShowTable-3.3_showmode_0">
+$showmode</A>
+</A>
+
+</STRONG>
+<DD>
+The mode of the output: one of ``table'', ``list'', ``box'', or ``html''.  Currently,
+only the ``html'' mode is significant: it is used to avoid using HTML tokens
+as part of the formatted text and length calculations.
+<p>
+</DL>
+.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_plaintext_0">
+PlainText</A>
+</H1>
+<STRONG>  </STRONG><EM><STRONG>$plaintext</STRONG></EM> = <STRONG>&amp;PlainText</STRONG>(<EM><STRONG>$htmltext</STRONG></EM>);
+<p><STRONG>  </STRONG><STRONG>&amp;PlainText</STRONG>
+<p>This function removes any HTML formatting sequences from the input argument,
+or from <CODE><STRONG>$_</STRONG></CODE> if no argument is given.  The resulting plain text is returned
+as the result.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_variables_0">
+VARIABLES</A>
+</H1>
+The following variables may be set by the user to affect the display (with
+the defaults enclosed in square brackets [..]):
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_show_mode_1">
+
+<A NAME="Data-ShowTable-3.3_show_mode_1">
+$Show_Mode</A>
+</A>
+ [Box]
+</STRONG>
+<DD>
+This is the default display mode when using <STRONG>ShowTable</STRONG>.  The
+environment variable, <CODE><STRONG>$ENV</STRONG>{'SHOW_MODE'}</CODE>, is used when this variable is
+null or the empty string.  The possible values for this variable are:
+<CODE>``Box''</CODE>, <CODE>``List''</CODE>, <CODE>``Table''</CODE>, and <CODE>``HTML''</CODE>.  Case is insignificant.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_list_wrap_margin_0">
+
+<A NAME="Data-ShowTable-3.3_list_wrap_margin_0">
+$List_Wrap_Margin</A>
+</A>
+ [2]
+</STRONG>
+<DD>
+This variable's value determines how large a margin to keep before wrarpping a
+long value's display in a column.  This value is only used in ``List'' mode.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_max_list_width_0">
+
+<A NAME="Data-ShowTable-3.3_max_list_width_0">
+$Max_List_Width</A>
+</A>
+ [80]
+</STRONG>
+<DD>
+This variable, used in ``List'' mode, is used to determine how long an output line
+may be before wrapping it.  The environment variable, <CODE><STRONG>$ENV</STRONG>{'COLUMNS'}</CODE>, is
+used to define this value when it is null.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_max_table_width_0">
+
+<A NAME="Data-ShowTable-3.3_max_table_width_0">
+$Max_Table_Width</A>
+</A>
+ ['']
+</STRONG>
+<DD>
+This variable, when set, causes all tables to have their columns scaled
+such that their total combined width does not exceed this value.  When
+this variable is not set, which is the default case, there is no maximum
+table width, and no scaling will be done.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_no_escape_1">
+
+<A NAME="Data-ShowTable-3.3_no_escape_1">
+$No_Escape</A>
+</A>
+ ['']
+</STRONG>
+<DD>
+If set, allows embedded HTML text to be included in the data displayed
+in an HTML-formatted table.  By default, the HTML formatting characters
+(``&lt;'', ``&gt;'', and ``&amp;'') occuring in values are escaped.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_url_keys_1">
+
+<A NAME="Data-ShowTable-3.3_url_keys_1">
+%URL_Keys</A>
+</A>
+
+</STRONG>
+<DD>
+In HTML mode, this variable is used to recognize which columns are to be 
+displayed with a corresponding hypertext anchor.  See <EM>``ShowHTMLTable''</EM> 
+for more details.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_html_elements_0">
+
+<A NAME="Data-ShowTable-3.3_html_elements_0">
+@HTML_Elements</A>
+</A>
+
+</STRONG>
+<DD>
+An array of HTML elements (as of HTML 3.0) used to recognize and strip for 
+width calculations.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_html_elements_1">
+
+<A NAME="Data-ShowTable-3.3_html_elements_1">
+$HTML_Elements</A>
+</A>
+
+</STRONG>
+<DD>
+A regular expression string formed from the elements of 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_html_elements_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_html_elements_0">@HTML_Elements</A>
+</A>
+.
+<p>
+</DL>
+.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_internal_0">
+INTERNAL SUBROUTINES</A>
+</H1>
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_get_params_0">
+get_params</A>
+</H1>
+<STRONG>  </STRONG>my <EM><STRONG>$args</STRONG></EM> = <STRONG>&amp;get_params</STRONG> <EM>\<STRONG>@argv</STRONG></EM>, <EM>\<STRONG>%params</STRONG></EM>, <EM>\<STRONG>@arglist</STRONG></EM>;
+<p>Given the <EM><STRONG>@argv</STRONG></EM> originally passed to the calling sub, and the hash of
+named parameters as <EM><STRONG>%params</STRONG></EM>, and the array of parameter names in the
+order expected for a pass-by-value invocation, set the values of each of
+the variables named in <EM><STRONG>@vars</STRONG></EM>.  
+<p>If the only element of the <EM><STRONG>@argv</STRONG></EM> is a hash array, then set the
+variables to the values of their corresponding parameters used as keys
+to the hash array.  If the parameter is not a key of the <EM><STRONG>%params</STRONG></EM>
+hash, and is not a key in the global hash <STRONG><STRONG>%ShowTableParams</STRONG></STRONG>, then an
+error is noted.
+<p>When <EM><STRONG>@argv</STRONG></EM> has multiple elements, or is not a hash array, set each
+variable, in the order given within <EM><STRONG>@arglist</STRONG></EM>, to the values from the
+<EM><STRONG>@argv</STRONG></EM>, setting the variables named by each value in <EM><STRONG>%params</STRONG></EM>.
+<p>Variables may given either by name or by reference.
+<p>The result is a HASH array reference, either corresponding directly to
+the HASH array passed as the single argument, or one created by
+associating the resulting variable values to the parameter names
+associated with the variable names.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_html_formats_0">
+html_formats</A>
+</H1>
+<STRONG>  </STRONG>(<EM><STRONG>$prefixes</STRONG></EM>,<EM><STRONG>$suffixes</STRONG></EM>) = 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_html_formats_0">html_formats</A>
+ <EM>\<STRONG>@html_formats</STRONG></EM>;
+<p>The <STRONG>html_format</STRONG> function takes an array reference of HTML formatting
+elements <EM>\<STRONG>@html_formats</STRONG></EM>, and builds two arrays of strings: the first:
+<EM><STRONG>$prefixes</STRONG></EM>, is an array of prefixes containing the corresponding HTML
+formatting elements from <EM>\<STRONG>@html_formats</STRONG></EM>, and the second,
+<EM><STRONG>$suffixes</STRONG></EM>, containing the appropriate HTML closing elements, in the
+opposite order.
+<p>The result is designed to be used as prefixes and suffixes for the
+corresponding titles and column values.
+<p>The array <EM>\<STRONG>@html_formats</STRONG></EM> contains lists of HTML formatting elements,
+one for each column (either title or data).  Each array element is a
+list of one or more HTML elements, either given in HTML syntax, or as a
+``plain'' name (ie: given as <CODE>\&lt;ELEMENT\</CODE&gt;&gt; or plainly, <CODE>ELEMENT</CODE>).
+Multiple elements are separated by a comma <CODE>','</CODE>.
+<p>The resulting array of <EM><STRONG>$prefixes</STRONG></EM> contains the corresponding opening
+elements, in the order given, with the proper HTML element syntax.  The
+resulting array of <EM><STRONG>$suffixes</STRONG></EM> contains the closing elements, in the
+opposite order given, with the proper HTML element syntax.
+<p>For example, if <EM>\<STRONG>@html_formats</STRONG></EM> contains the two elements:
+<p>
+<XMP>
+    [ 'FONT SIZE=+2,BOLD', 'FONT COLOR=red,EM' ]
+
+</XMP>
+<p>then the resulting two arrays will be returned as:
+<p>
+<XMP>
+    [ [ '<FONT SIZE=+2><BOLD>', '<FONT COLOR=red><EM>' ],
+      [ '</FONT></BOLD>',       '</FONT></EM>' ] ]
+
+</XMP>
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_calc_widths_0">
+calc_widths</A>
+</H1>
+<STRONG>  </STRONG>(
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_num_cols_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_num_cols_0">$num_cols</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widths_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widths_1">$widths</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_precision_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_precision_1">$precision</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_widths_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_widths_0">$max_widths</A>
+</A>
+) =
+<STRONG>  </STRONG><STRONG>&amp;calc_widths</STRONG>( 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">$widthspec</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_titles_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_titles_1">$titles</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_rewindable_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_rewindable_0">$rewindable</A>
+</A>
+,
+<STRONG>      </STRONG>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_row_sub_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_row_sub_1">$row_sub</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_fmt_sub_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_fmt_sub_0">$fmt_sub</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_types_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_types_1">$types</A>
+</A>
+, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showmode_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_showmode_0">$showmode</A>
+</A>
+, 
+<STRONG>      </STRONG>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_max_width_2">$max_width</A>
+</A>
+);
+<p>
+<H2> 
+<A NAME="Data-ShowTable-3.3_description_0">
+DESCRIPTION</A>
+</H2>
+
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_calc_widths_0">calc_widths</A>
+ is a generalized subroutine used by all the <STRONG>ShowTable</STRONG>
+variant subroutines to setup internal variables prior to formatting for
+display.  <STRONG>Calc_widths</STRONG> handles the column width and precision
+analysis, including scanning the data (if rewindable) for appropriate
+default values.
+<p>The number of columns in the data is returned, as well as three arrays:
+the declared column widths, the column precision values, and the maximum
+column widths.
+<p>
+<H2> 
+<A NAME="Data-ShowTable-3.3_return_0">
+RETURN VALUES</A>
+</H2>
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_num_cols_0">
+
+<A NAME="Data-ShowTable-3.3_num_cols_0">
+$num_cols</A>
+</A>
+
+</STRONG>
+<DD>
+is the number of columns in the data.  If the data is not rewindable,
+this is computed as the maximum of the number of elements in the
+
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">$widthspec</A>
+</A>
+ array and the number of elements in the 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_titles_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_titles_1">$titles</A>
+</A>
+
+array.  When the data is rewindable, this is the maximum of the number
+of columns of each row of data.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_widths_1">
+
+<A NAME="Data-ShowTable-3.3_widths_1">
+$widths</A>
+</A>
+
+</STRONG>
+<DD>
+is the column widths array ref, without the precision specs (if any).
+Each column's width value is determined by the original 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">$widthspec</A>
+</A>
+
+value and/or the maximum length of the formatted data for the column.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_precision_1">
+
+<A NAME="Data-ShowTable-3.3_precision_1">
+$precision</A>
+</A>
+
+</STRONG>
+<DD>
+is the precision component (if any) of the original 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">$widthspec</A>
+</A>
+
+array ref.  If there was no original precision component from the 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">$widthspec</A>
+</A>
+,
+and the data is rewindable, then the data is examined to determine the
+maximum default precision.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_max_widths_0">
+
+<A NAME="Data-ShowTable-3.3_max_widths_0">
+$max_widths</A>
+</A>
+
+</STRONG>
+<DD>
+is the ref to the array of maximum widths for the given columns.
+<p>
+<H2> 
+<A NAME="Data-ShowTable-3.3_arguments_0">
+ARGUMENTS</A>
+</H2>
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_widthspec_0">
+
+<A NAME="Data-ShowTable-3.3_widthspec_0">
+$widthspec</A>
+</A>
+
+</STRONG>
+<DD>
+A reference to an array of column width (or length) values, each given
+as an integer, real number, or a string value of
+``
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_0">width</A>
+.
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_precision_0">precision</A>
+''.  If a value is zero or null, the length of the
+corresponding formatted data (if rewindable) and column title length are
+used to determine a reasonable default.
+<p>If a column's 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_0">width</A>
+ portion is a positive, non-zero number, then the
+column will be this wide, regardless of the values lengths of the data
+in the column.
+<p>If the column's 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_0">width</A>
+ portion is given as a negative number, then the
+positive value is used as a minimum column width, with no limit on the
+maximum column width.  In other words, the column will be at least
+
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_0">width</A>
+ characters wide.
+<p>If the data is not rewindable, and a column's width value is null or
+zero, then the length of the column title is used.  This may cause severe
+wrapping of data in the column, if the column data lengths are much
+greater than the column title widths.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_titles_1">
+
+<A NAME="Data-ShowTable-3.3_titles_1">
+$titles</A>
+</A>
+
+</STRONG>
+<DD>
+The array ref to the column titles; used to determine the minimum
+acceptable width, as well as the default number of columns.  If the
+
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_titles_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_titles_1">$titles</A>
+</A>
+ array is empty, then the 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_widthspec_0">$widthspec</A>
+</A>
+ array is used to
+determine the default number of columns.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_rewindable_0">
+
+<A NAME="Data-ShowTable-3.3_rewindable_0">
+$rewindable</A>
+</A>
+
+</STRONG>
+<DD>
+A flag indicating whether or not the data being formatted is rewindable.
+If this is true, a pass over the data will be done in order to calculate
+the maximum lengths of the actual formatted data, using 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_fmt_sub_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_fmt_sub_0">$fmt_sub</A>
+</A>
+
+(below), rather than just rely on the declared column lengths.  This
+allows for optimal column width adjustments (ie: the actual column
+widths may be less than the declared column widths).
+<p>If it is not desired to have the column widths dynamically adjusted,
+then set the 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_rewindable_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_rewindable_0">$rewindable</A>
+</A>
+ argument to 0, even if the data is
+rewindable.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_row_sub_1">
+
+<A NAME="Data-ShowTable-3.3_row_sub_1">
+$row_sub</A>
+</A>
+
+</STRONG>
+<DD>
+The code reference to the subroutine which returns the data; invoked
+only if 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_rewindable_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_rewindable_0">$rewindable</A>
+</A>
+ is non-null.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_fmt_sub_0">
+
+<A NAME="Data-ShowTable-3.3_fmt_sub_0">
+$fmt_sub</A>
+</A>
+
+</STRONG>
+<DD>
+The subroutine used to determine the length of the data when formatted;
+if this is omitted or null, the length of the data is used by default.
+The 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_fmt_sub_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_fmt_sub_0">$fmt_sub</A>
+</A>
+ is used only when the data is rewindable.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_types_1">
+
+<A NAME="Data-ShowTable-3.3_types_1">
+$types</A>
+</A>
+
+</STRONG>
+<DD>
+An array reference to the types of each of the value columns; used only 
+when 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_fmt_sub_0">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_fmt_sub_0">$fmt_sub</A>
+</A>
+ is invoked.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_showmode_0">
+
+<A NAME="Data-ShowTable-3.3_showmode_0">
+$showmode</A>
+</A>
+
+</STRONG>
+<DD>
+A string indicating the mode of the eventual display; one of four strings:
+``<CODE>box</CODE>'', ``<CODE>table</CODE>'', ``<CODE>list</CODE>'', and ``<CODE>html</CODE>''.  Used to adjust widths
+for formatting requirements.
+<p>
+<DT><STRONG>
+
+<A NAME="Data-ShowTable-3.3_max_width_2">
+
+<A NAME="Data-ShowTable-3.3_max_width_2">
+$max_width</A>
+</A>
+
+</STRONG>
+<DD>
+The maximum width of the table being formatted.  If set, and the total
+sum of the individual columns exceeds this value, the column widths are
+scaled down uniformly.  If not set (null), no column width scaling is done.
+<p>
+</DL>
+.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_putcell_0">
+putcell</A>
+</H1>
+<STRONG>  </STRONG><EM><STRONG>$wrapped</STRONG></EM> = <STRONG>&amp;putcell</STRONG>( <EM>\<STRONG>@cells</STRONG></EM>, <EM><STRONG>$c</STRONG></EM>, <EM><STRONG>$cell_width</STRONG></EM>, <EM>\<STRONG>@prefix</STRONG></EM>, <EM>\<STRONG>@suffix</STRONG></EM>, <EM><STRONG>$wrap_flag</STRONG></EM> );
+<p>Output the contents of an array cell at <EM><STRONG>$cell</STRONG></EM>[<EM><STRONG>$c</STRONG></EM>], causing text
+longer than <EM><STRONG>$cell_width</STRONG></EM> to be saved for output on subsequent calls.
+Prefixing the output of each cell's value is a string from the
+two-element array <EM><STRONG>@prefix</STRONG></EM>.  Suffixing each cell's value is a string
+from the two-element array <EM><STRONG>@suffix</STRONG></EM>.  The first element of either 
+array is selected when <EM><STRONG>$wrap_flag</STRONG></EM> is zero or null, or when there is
+no more text in the current to be output.  The second element
+is selected when <EM><STRONG>$wrap_flag</STRONG></EM> is non-zero, and when there is more text in
+the current cell to be output.
+<p>In the case of text longer than <EM><STRONG>$cell_width</STRONG></EM>, a non-zero value is
+returned. 
+<p>Cells with undefined data are not output, nor are the prefix or suffix
+strings. 
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_center_0">
+center </A>
+</H1>
+Center a string within a given width.
+<p><STRONG>  </STRONG><EM><STRONG>$field</STRONG></EM> = <STRONG>center</STRONG> <EM><STRONG>$string</STRONG></EM>, 
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_1">
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_width_1">$width</A>
+</A>
+;
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_max_0">
+max</A>
+</H1>
+Compute the maximum value from a list of values.
+<p><STRONG>  </STRONG><EM><STRONG>$max</STRONG></EM> = <STRONG>&amp;max</STRONG>( <EM><STRONG>@values</STRONG></EM> );
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_min_0">
+min</A>
+</H1>
+Compute the minum value from a list of values.
+<p><STRONG>  </STRONG><EM><STRONG>$min</STRONG></EM> = <STRONG>&amp;min</STRONG>( <EM><STRONG>@values</STRONG></EM> );
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_max_length_0">
+max_length</A>
+</H1>
+Compute the maximum length of a set of strings in an array reference.
+<p><STRONG>  </STRONG><EM><STRONG>$maxlength</STRONG></EM> = <STRONG>&amp;max_length</STRONG>( <EM>\<STRONG>@array_ref</STRONG></EM> );
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_htmltext_0">
+htmltext</A>
+</H1>
+Translate regular text for output into an HTML document.  This means
+certain characters, such as ``&amp;'', ``&gt;'', and ``&lt;'' must be escaped. 
+<p><STRONG>  </STRONG><EM><STRONG>$output</STRONG></EM> = <STRONG>&amp;htmltext</STRONG>( <EM><STRONG>$input</STRONG></EM> [, <EM><STRONG>$allflag</STRONG></EM> ] );
+<p>If <EM><STRONG>$allflag</STRONG></EM> is non-zero, then all characters are escaped.  Normally,
+only the four HTML syntactic break characters are escaped.
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_out_0">
+out</A>
+</H1>
+Print text followed by a newline.
+<p><STRONG>  </STRONG>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_out_0">out</A>
+ <EM><STRONG>$fmt</STRONG></EM> [, <EM><STRONG>@text</STRONG></EM> ];
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_put_0">
+put</A>
+</H1>
+Print text (without a trailing newline).
+<p><STRONG>  </STRONG>
+<A HREF="Data-ShowTable-3.3.html#Data-ShowTable-3.3_out_0">out</A>
+ <EM><STRONG>$fmt</STRONG></EM> [, <EM><STRONG>@text</STRONG></EM> ];
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_author_0">
+AUTHOR</A>
+</H1>
+Alan K. Stebbens &lt;<A HREF="MAILTO:aks@sgi.com">aks@sgi.com</A>&gt;
+<p><p><hr>
+
+<H1> 
+<A NAME="Data-ShowTable-3.3_bugs_0">
+BUGS</A>
+</H1>
+<p>
+<UL>
+<LI>Embedded HTML is how the user can insert formatting overrides.  However,
+the HTML formatting techniques have not been given much consideration --
+feel free to provide constructive feedback.
+<p>
+</UL>
+
+</BODY>
+</HTML>
