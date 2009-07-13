@@ -1,7 +1,7 @@
 # perl -w
 # ShowTable.pm
 #
-#    Copyright (C) 1996-2006 Alan K. Stebbens <aks@stebbens.org>
+#    Copyright (C) 1996-2009 Alan K. Stebbens <aks@stebbens.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -1283,8 +1283,8 @@ sub ShowTableValue {
 	    $d =~ s/(...)(?=.)/$1,/g;
 	    # reverse the digits and grouping char
 	    $d = '$'.join('',reverse(split(//,$d)));
-	    # If there is any precision, add on pennies
-	    $d .= sprintf(".%02d",$c) if $prec > 0;
+	    # If there is any precision, add on pennies (allow for > 2 precision)
+	    $d .= sprintf($prec > 2 ? "%0${prec}d" : ".%02d",$c) if $prec > 0;
 	    # Mark as negative with '(xxx)'
 	    $d = '-'.$d if $value < 0;
 	    $str = $d;
@@ -1304,7 +1304,7 @@ sub ShowTableValue {
     if ($width > length(&PlainText($str))) {
 	# right align the value if any kind of number
 	$str = sprintf("%${width}s", $str) 
-	    if $type =~ /int|float|real|numeric|money/i;
+	    if $type =~ /int|float|pct|real|numeric|money/i;
     }
     $str;
 }
@@ -1316,6 +1316,7 @@ sub ShowTableValue {
   'tinyint'	=> '%%%dd',
   'shortint'	=> '%%%dd',
   'int'		=> '%%%dd',
+  'pct'	        => '%%%d.%df%%%%',
   'real'	=> '%%%d.%df',
   'float'	=> '%%%d.%df',
   'numeric'	=> '%%%d.%df',
@@ -1325,8 +1326,8 @@ sub ShowTableValue {
   # ShowTableValue handle money formatting explicitly.  However, some
   # one else might use this table, so we treat them like right-aligned
   # strings.
-  'money'	=> '%%%ds',
-  'smallmoney'	=> '%%%ds',
+  'money'	=> '%%%d.%df',
+  'smallmoney'	=> '%%%d.%df',
 
   );
 
@@ -1673,7 +1674,11 @@ maximum default precision.
 
 is the ref to the array of maximum widths for the given columns.
 
+=back
+
 =head2 B<ARGUMENTS>
+
+=over 10
 
 =item I<$widthspec>
 

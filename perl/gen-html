@@ -26,12 +26,12 @@ if [ -n "$VIAMAN" ]; then
 
 else
     echo "Converting ShowTable.pm -> Data-ShowTable-$VER.html"
-    cp ShowTable.pm Data-ShowTable-$VER
-    $P2H Data-ShowTable-$VER
-    rm -f Data-ShowTable-$VER
+    cp ShowTable.pm Data-ShowTable-$VER.pm
+    $P2H --infile=Data-ShowTable-$VER.pm --outfile=Data-ShowTable-$VER.html
+    rm Data-ShowTable-$VER.pm
 
     echo "Converting showtable -> showtable-$VER.html"
     cp showtable showtable-$VER
-    $P2H showtable-$VER
-    rm -f showtable-$VER
+    $P2H --infile=showtable-$VER --outfile=showtable-$VER.html
+    rm showtable-$VER
 fi

@@ -1,4 +1,4 @@
-#!/usr/bin/perl5
+#!/usr/bin/env perl
 
 # Test "showtable"
 
@@ -14,7 +14,12 @@ start_tests 8;
 
 # Test negative widths
 run_test 1, sub {
-    system("showtable -d: testfile");
+    &$showSub({ widths  => [ -5, -20, -10, -30 ],
+		titles  => \@Titles,
+		types   => \@Types, 
+		row_sub => \&showDataRow,
+		max_width => 40,
+	  });
 };
 
 # Test positive widths

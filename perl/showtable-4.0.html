@@ -1,0 +1,451 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>B&lt;showtable&gt; - Show data in nicely formatted columns</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:aks@anywhere.local" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#usage">USAGE</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<ul>
+
+		<li><a href="#options_affecting_input"><strong>Options affecting input</strong></a></li>
+		<li><a href="#options_affecting_output"><strong>Options affecting output</strong></a></li>
+		<li><a href="#htmlonly_options__the_usage_of_which_implies_html_"><strong>HTML-only options</strong> (the usage of which implies <strong>-html</strong>)</a></li>
+		<li><a href="#other_options"><strong>Other options</strong></a></li>
+		<li><a href="#boxed_input"><strong>Boxed Input</strong></a></li>
+		<li><a href="#list_format"><strong>List Format</strong></a></li>
+		<li><a href="#html_input_with_html_output"><strong>HTML Input with HTML Output</strong></a></li>
+	</ul>
+
+	<li><a href="#dependencies">DEPENDENCIES</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><strong>showtable</strong> - Show data in nicely formatted columns</p>
+<p>
+</p>
+<hr />
+<h1><a name="usage">USAGE</a></h1>
+<p><strong>showtable</strong> [-<em>options</em>] [<em>file</em>]</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Showtable</strong> reads an input data stream and displays it in a nicely
+formatted listing, with exact formatting depending upon the options.
+The input stream, <em>file</em> or <code>STDIN</code> by default should consist of data
+separated by tabs or the defined <em>separator</em> character (see <strong>-d</strong>).</p>
+<p>The actual output formatting is peformed by the <strong>ShowTable</strong> module.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>There are two general sets of options: those which help determine the format of the
+input, and those which determine the format of the output.</p>
+<p>
+</p>
+<h2><a name="options_affecting_input"><strong>Options affecting input</strong></a></h2>
+<dl>
+<dt><strong><a name="item__2dbreak_3dstr"><strong>-break=</strong><em>str</em></a></strong>
+
+<dd>
+<p>Set the inter-column break string to ``<em>str</em>''.  The default
+is a tab (``<code>\t</code>'').  If <strong>-strip</strong> is also given, blanks surrounding
+the break string will also be ignored.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2ddstr"><strong>-d</strong><em>str</em></a></strong>
+
+<dd>
+<p>This is the same as <code>-break=</code><em>str</em>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_nod"><strong>-nod(ashes)</strong></a></strong>
+
+<dd>
+<p>Do not ignore lines of separators, such as dashes, equal 
+signs, or underlines.  If <strong>-nodashes</strong> is given, and these lines do occur
+in the stream, they will be treated as normal data.</p>
+</dd>
+</li>
+<dt><strong><a name="item_ti"><strong>-ti(tles)[=</strong><em>NN</em><strong>]</strong></a></strong>
+
+<dd>
+<p>Treat the first <em>NN</em> rows of data as column titles; multiple
+words in the column titles may wrap vertically. If <em>NN</em> is
+omitted, it defaults to 1.  No <strong>-titles</strong> option is the same
+as <strong>-titles=0</strong>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_in"><strong>-in(put)=</strong><em>type</em></a></strong>
+
+<dd>
+<p>Set the input type as <em>type</em>, which can be one of: <em>box</em>, <em>list</em>, <em>table</em>,
+or <em>simple</em>.  A <em>simple</em>-type table is the same as a <em>table</em>-type,
+but no wrapping characters are recognized.</p>
+</dd>
+</li>
+<dt><strong><a name="item_s"><strong>-s(trip)</strong></a></strong>
+
+<dd>
+<p>Strip blanks from around the column values.</p>
+</dd>
+</li>
+<dt><strong><a name="item_nos"><strong>-nos(trip)</strong></a></strong>
+
+<dd>
+<p>Do not strip blanks from the input.  Useful if there is formatted or aligned
+data within a boxed table.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="options_affecting_output"><strong>Options affecting output</strong></a></h2>
+<dl>
+<dt><strong><a name="item_t"><strong>-t(able)</strong></a></strong>
+
+<dd>
+<p>Use a <em>table</em> format for output, with wrapping of column values longer 
+than the given or determined column widths.  See <a href="/Data/ShowTable.html">the Data::ShowTable manpage</a> for 
+more details.</p>
+</dd>
+</li>
+<dt><strong><a name="item_si"><strong>-si(mple)</strong></a></strong>
+
+<dd>
+<p>Use a simple table format, without any wrapping of column values.  
+See <a href="/Data/ShowTable.html">the Data::ShowTable manpage</a> for more details.</p>
+</dd>
+</li>
+<dt><strong><a name="item_l"><strong>-l(ist)</strong></a></strong>
+
+<dd>
+<p>Use a list style format.  See <a href="/Data/ShowTable.html">the Data::ShowTable manpage</a> for more details.</p>
+</dd>
+</li>
+<dt><strong><a name="item_b"><strong>-b(ox)</strong></a></strong>
+
+<dd>
+<p>Use a ``boxed'' style table.  See <a href="/Data/ShowTable.html">the Data::ShowTable manpage</a> for more details.</p>
+</dd>
+</li>
+<dt><strong><a name="item_ht"><strong>-ht(ml)</strong></a></strong>
+
+<dd>
+<p>Use HTML-formating.  See <a href="/Data/ShowTable.html">the Data::ShowTable manpage</a> for more details.</p>
+</dd>
+</li>
+<dt><strong><strong>-ti(tles)=</strong><em>name1</em><strong>,</strong><em>name2</em><strong>,...,</strong><em>nameN</em></strong>
+
+<dd>
+<p>Define the column names explicitly.  This is useful for naming columns
+of data from <code>STDIN</code>, when <strong>showtable</strong> is being used as a filter.  The
+first column name, <em>name1</em>, cannot begin with a digit.  This option
+allows any column titles obtained from the input to be overridden.</p>
+</dd>
+</li>
+<dt><strong><a name="item_noh"><strong>-noh(eaders)</strong></a></strong>
+
+<dd>
+<p>Do not output any headers on the tables; <strong>-titles=0</strong> implies this option.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dfn1_5b_2cn2_2c__2e_2e_2e_2c_nn_5d"><strong>-f</strong><em>n1</em>[,<em>n2</em>, ..., <em>nN</em>]</a></strong>
+
+<dd>
+<p>Select fields numbered <em>n1</em>, <em>n2</em>, etc., to display.  Each <em>nN</em> is a
+field index, or a range of indexes in the form: <code>N</code>-<code>M</code> The default
+is to show all the fields in each row.  Fields are numbered from 1.  An
+example:  to show the first, and three through five fields of the
+<code>/etc/passwd</code> file:</p>
+</dd>
+<dd>
+<pre>
+    showtable -d: -f1,2-5 /etc/passwd</pre>
+</dd>
+</li>
+<dt><strong><a name="item__2dfields_3dfname1_5b_2cfname2_2c__2e_2e_2e_2c_fna"><strong>-fields</strong>=<em>fname1</em>[,<em>fname2</em>, ..., <em>fnameN</em>]</a></strong>
+
+<dd>
+<p>Select the named fields to display.  The field names must be available, either
+through the data stream, or by using the <strong>-titles</strong> option.   The field
+names given must match the existing field names <em>exactly</em>.</p>
+</dd>
+<dd>
+<p>Using the file <code>/etc/passwd</code> for another example: to show the same first two
+fields, by name:</p>
+</dd>
+<dd>
+<pre>
+    showtable -d: -titles=Login,UID -fields=Login,UID /etc/passwd</pre>
+</dd>
+</li>
+<dt><strong><a name="item_w"><strong>-w(idth)</strong>=<em>num</em></a></strong>
+
+<dd>
+<p>Set the maximum table width.  This value is applied to the variable 
+<a href="/Data/Showtable/Max_Table_Width.html">the Data::Showtable::Max_Table_Width manpage</a>.  When the total width of all
+columns to be displayed exceeds this value, all column widths are scaled
+uniformly.</p>
+</dd>
+<dd>
+<p>If <strong>-width</strong> is not given, then for all output but <strong>-html</strong>, the default
+value is either ``<code>COLUMNS</code>'', if defined, or 80, if not.  Whith <strong>-html</strong>
+mode, there is no default value for <strong>-width</strong>; in other words, there is
+no limit to the width.</p>
+</dd>
+</li>
+<dt><strong><a name="item_cw"><strong>-cw(idths)</strong>=<em>w1</em>[,<em>w2</em>,...,<em>wN</em>]</a></strong>
+
+<dd>
+<p>Set individual column widths to the specified values.  Empty column
+widths imply no maximum width.  If the <strong>-width</strong> option is also given,
+then the <strong>-cwidth</strong> column widths can also be given as fractions or
+percentages.</p>
+</dd>
+<dd>
+<p>Example: To set the maximum width of the third column to 20 characters:</p>
+</dd>
+<dd>
+<pre>
+    -cw=,,20</pre>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="htmlonly_options__the_usage_of_which_implies_html_"><strong>HTML-only options</strong> (the usage of which implies <strong>-html</strong>)</a></h2>
+<dl>
+<dt><strong><a name="item_noe"><strong>-noe(scape)</strong></a></strong>
+
+<dd>
+<p>Do not perform HTML escape sequences on the data; this allows embedded
+HTML text in the data to be displayed properly with the <strong>-html</strong> option.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dattributes_3d_27attr1_attr2__2e_2e_2e_27"><strong>-attributes</strong>='<em>attr1</em> <em>attr2</em> ...'</a></strong>
+
+<dd>
+<p>Declare the table attributes, which are inserted into the <code>TABLE</code>
+token.  For example, the option:</p>
+</dd>
+<dd>
+<pre>
+    -attributes='BORDER=0 CELLSPACING=2 CELLPADDING=4'</pre>
+</dd>
+<dd>
+<p>would cause the following HTML:</p>
+</dd>
+<dd>
+<pre>
+    &lt;TABLE BORDER=0 CELLSPACING=2 CELLPADDING=4&gt;</pre>
+</dd>
+<dd>
+<p>The default table attributes are:</p>
+</dd>
+<dd>
+<pre>
+    &lt;TABLE BORDER=1 CELLSPACING=1 CELLPADDING=1&gt;</pre>
+</dd>
+</li>
+<dt><strong><strong>-t(itle)_f(ormats)</strong>=<em>fmt1</em>;<em>fmt2</em>;...;<em>fmtN</em></strong>
+
+<dd>
+<p>Set the HTML formats for the column titles.  The <strong>-title_formats</strong> (or
+just <strong>-tf</strong>) can be given multiple times, for each column, or formats
+for multiple columns can be given on the same option separated by
+semi-colons ``<code>;</code>''.</p>
+</dd>
+<dd>
+<p>Each <em>fmtN</em> can itself be multiple HTML items, separated by commas.
+Each HTML element can be given either as an HTML token (eg:
+``<code>\&lt;BOLD\</code>&gt;''), or as a plain name (eg: ``<code>BOLD</code>'').</p>
+</dd>
+<dd>
+<p>For example, here is a title format specification for three columns,
+where the first column title should be bold italic, the second italic,
+and the third italic in a smaller font:</p>
+</dd>
+<dd>
+<pre>
+        -tf='BOLD,I;I;&lt;FONT SIZE=-2&gt;,I'</pre>
+</dd>
+</li>
+<dt><strong><a name="item_d"><strong>-d(ata)_f(formats)</strong>=<em>fmt1</em>;<em>fmt2</em>;...;<em>fmtN</em></a></strong>
+
+<dd>
+<p>The same as <strong>-title_formats</strong> but applies to the column data.</p>
+</dd>
+</li>
+<dt><strong><a name="item_url"><strong>-url(s)=<em>col1</em>=<em>url1</em>,<em>col2</em>=<em>url2</em>,...</strong></a></strong>
+
+<dd>
+<p>Define a mapping from column names, or indexes, to URLs to be inserted
+as &lt;A HREF's&gt; around the values for the named columns.  Each <em>colN</em> is
+a column name or index, and each <em>urlN</em> is a string representing the
+URL to be inserted for the given column.</p>
+</dd>
+<dd>
+<p>The URL text may contain these substitution strings:</p>
+</dd>
+<dd>
+<p><strong>%K</strong> - will be substituted with the current column name (or <em>key</em>).</p>
+</dd>
+<dd>
+<p><strong>%V</strong> - will be substituted with the current column value.</p>
+</dd>
+<dd>
+<p>Multiple <strong>-url</strong> options may be given, if desired, rather than
+creating one long argument for a single <strong>-url</strong>.  For example:</p>
+</dd>
+<dd>
+<pre>
+    showtable   -d: -f1,6 -titles=Login,Homedir \
+                -url='Login=<a href="mailto:%V">mailto:%V</a>' \
+                -url='HomeDir=<a href="file:%V">file:%V</a>' \
+                /etc/passwd</pre>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="other_options"><strong>Other options</strong></a></h2>
+<dl>
+<dt><strong><a name="item__2dhelp"><strong>-help</strong></a></strong>
+
+<dd>
+<p>Display some help to the user and quit.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="boxed_input"><strong>Boxed Input</strong></a></h2>
+<p>If the input type is <em>box</em>, then vertical and horizontal box characters
+are removed from the input stream, and blanks surrounding the vertical
+box characters are removed.  The vertical box characters (column
+separaters) are ``<code>|</code>'' or ``<code>:</code>''.  The The horizontal box characters are
+``<code>+</code>'' and ``<code>-</code>''.</p>
+<p>Morever, data wrapped within a column is recognized and parsed as one
+column value, by recognizing the presence of a <em>wrapping prefix</em> or
+<em>wrapping suffix</em> character.  Currently, the wrapping prefix character
+is ``&lt;'', and the wrapping suffix character is ``&gt;''.</p>
+<p>An example of data wrapped within a column is given here.  The table
+below has just two <em>logical</em> rows of data; with both rows having data
+wrapped into multiple <em>physical</em> rows.</p>
+<pre>
+        +---------+---------+---------+
+        |  Col 1  |  Col 2  |  Col 3  |
+        +---------+---------+---------+
+        | This is&gt;| Another&gt;| Row 1,3&gt;|
+        |&lt; a cont&gt;|&lt; value. |&lt;is also&gt;|
+        |&lt;inued  &gt;|         |&lt;long.   |
+        |&lt;value.  |         |         |
+        |This is &gt;| Item2-2 | Item2-3 |
+        +---------+---------+---------+</pre>
+<p>
+</p>
+<h2><a name="list_format"><strong>List Format</strong></a></h2>
+<p>When using the <strong>-list</strong> or <strong>-input=list</strong> options, either, or both, the 
+input and output may be in a ``list'' format, which is implemented
+using the following syntax:</p>
+<pre>
+        r1c1_name: r1c1_value
+        r1c2_name: r1c2_value
+        ...
+        r1cN_name: r1cN_value</pre>
+<pre>
+        r2c1_name: r2c1_value
+        r2c2_name: r2c2_value
+                 : r2c2_value_continued
+        ...
+        r2cN_name: r2cN_value</pre>
+<pre>
+        rMc1_name: rMc1_value
+        rMc2_name: rMc2_value
+        ...
+        rMcN_name: rMcN_value</pre>
+<p>Each <em>row</em> of data consists of one or more <em>columns</em>, and ends with
+a blank line.</p>
+<p>Each <em>column</em> consists of a <em>column name</em>, followed by a colon ``:'',
+followed by an optional, single space or tab, followed by the 
+<em>column value</em>, on the same line.</p>
+<p>Continuation lines of the previous column value consist of one or more
+space or tab characters, a colon ``:'', one optional, single space
+or tab, followed by the continuation value.  In the example above,
+The second column value of the second row was continued.</p>
+<p>
+</p>
+<h2><a name="html_input_with_html_output"><strong>HTML Input with HTML Output</strong></a></h2>
+<p>When using <strong>-html</strong> on data already containing HTML-formatted text,
+the <strong>-noescape</strong> option should be used.  By default, all input
+text is assumed <em>not</em> to be HTML-formatted, and is escaped
+allowing embedded ``&lt;'', ``&gt;'' characters, if any, to be displayed
+correctly.</p>
+<p>
+</p>
+<hr />
+<h1><a name="dependencies">DEPENDENCIES</a></h1>
+<dl>
+<dt><strong><a name="item_data_3a_3ashowtable_module"><strong>Data::ShowTable</strong> module</a></strong>
+
+<dd>
+<p>Performs the actual output formatting.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Alan K. Stebbens <em><a href="mailto:aks@stebbens.org">aks@stebbens.org</a></em></p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<ul>
+<li>
+<p>Currently, the box formatting characters are not configurable: '+' for
+the corners; '-' and '|' for the tops and sides, respectively.  In an
+ideal world, these things would be configurable.</p>
+</li>
+<li>
+<p>The continuation prefix and suffix characters, '&lt;' and '&gt;',
+respectively, are also not configurable:</p>
+</li>
+<li>
+<p>When reading <em>table</em> input, any data ending with ``&gt;'' will
+be considered to be continued by the next row of data.  To avoid
+this, use <strong>-input=simple</strong>.</p>
+</li>
+<li>
+<p>When selecting noncontiguous fields (ie: <strong>-f1,4</strong>&gt;) without
+field names, the default field names will be consecutively
+numbered from 1, which is counter-intuitive to the original
+selection.  To avoid this, name the fields using the <strong>-title=...</strong> 
+option.</p>
+</li>
+</ul>
+
+</body>
+
+</html>

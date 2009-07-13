@@ -1,4 +1,4 @@
-#!/usr/bin/perl5
+#!/usr/bin/env perl
 
 use Carp;
 
@@ -19,14 +19,14 @@ $testdir = -d 't' ? 't' : '.';
 
 sub talk { print STDERR @_; }
 
-sub start_tests {
+sub start_tests($) {
     my $count = shift;		# how many tests?
     mkdir("$testdir/out",0755)  unless -d "$testdir/out";
     print "1..$count\n";	# tell harness how many tests
     $| = 1;			# flush the output
 }
 
-sub copy_test_output {
+sub copy_test_output($) {
     my $kind = shift;
     print "*** \U$kind ***\n";
     open(IN, "<$testdir/out/test.$kind");
@@ -39,7 +39,7 @@ sub showDataRow {
      &ShowRow( $_[0], \$theRow, \@Data ); 
 }
 
-sub showDataRowOnce {
+sub showDataRowOnce($) {
     my $rewindable = shift;
     if ($rewindable) {
 	&ShowRow( 1, \$theRow, \@Data );
@@ -50,7 +50,7 @@ sub showDataRowOnce {
 
 # run_test $num, \&sub;
 
-sub run_test {
+sub run_test($&) {
     my $num = shift;
     my $sub = shift;
 

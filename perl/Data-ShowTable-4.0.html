@@ -1,0 +1,1097 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>B&lt;ShowTable&gt; - routines to display tabular data in several formats.</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:aks@anywhere.local" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#usage">USAGE</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#exported_names">EXPORTED NAMES</a></li>
+	<li><a href="#modules">MODULES</a></li>
+	<li><a href="#showtable">ShowTable</a></li>
+	<li><a href="#showdatabases">ShowDatabases</a></li>
+	<li><a href="#showtables">ShowTables</a></li>
+	<li><a href="#showcolumns">ShowColumns</a></li>
+	<li><a href="#showboxtable">ShowBoxTable</a></li>
+	<li><a href="#showsimpletable">ShowSimpleTable</a></li>
+	<li><a href="#showhtmltable">ShowHTMLTable</a></li>
+	<li><a href="#showlisttable">ShowListTable</a></li>
+	<li><a href="#showrow">ShowRow</a></li>
+	<li><a href="#showtablevalue">ShowTableValue</a></li>
+	<li><a href="#plaintext">PlainText</a></li>
+	<li><a href="#variables">VARIABLES</a></li>
+	<li><a href="#internal_subroutines">INTERNAL SUBROUTINES</a></li>
+	<li><a href="#get_params">get_params</a></li>
+	<li><a href="#html_formats">html_formats</a></li>
+	<li><a href="#calc_widths">calc_widths</a></li>
+	<ul>
+
+		<li><a href="#description"><strong>DESCRIPTION</strong></a></li>
+		<li><a href="#return_values"><strong>RETURN VALUES</strong></a></li>
+		<li><a href="#arguments"><strong>ARGUMENTS</strong></a></li>
+	</ul>
+
+	<li><a href="#putcell">putcell</a></li>
+	<li><a href="#center">center</a></li>
+	<li><a href="#max">max</a></li>
+	<li><a href="#min">min</a></li>
+	<li><a href="#max_length">max_length</a></li>
+	<li><a href="#htmltext">htmltext</a></li>
+	<li><a href="#out">out</a></li>
+	<li><a href="#put">put</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><strong>ShowTable</strong> - routines to display tabular data in several formats.</p>
+<p>
+</p>
+<hr />
+<h1><a name="usage">USAGE</a></h1>
+<p><code>use Data::ShowTable;</code></p>
+<p><strong>ShowTable</strong> { <em>parameter</em> =&gt; <em>value</em>, ... };</p>
+<p><strong>ShowTable</strong> <em>\@titles</em>, <em>\@types</em>, <em>\@widths</em>, <em>\&amp;row_sub</em> [, <em>\&amp;fmt_sub</em> ];</p>
+<p><strong>ShowDatabases</strong> <em>\@dbnames</em>;</p>
+<p><strong>ShowDatabases</strong> { <em>parameter</em> =&gt; <em>value</em>, ... };</p>
+<p><strong>ShowTables</strong> <em>\@tblnames</em>;</p>
+<p><strong>ShowTables</strong> { <em>parameter</em> =&gt; <em>value</em>, ... };</p>
+<p><strong>ShowColumns</strong> <em>\@columns</em>, <em>\@col_types</em>, <em>\@col_lengths</em>, <em>\@col_attrs</em>;</p>
+<p><strong>ShowColumns</strong> { <em>parameter</em> =&gt; <em>value</em>, ... };</p>
+<p><strong>ShowBoxTable</strong> <em>\@titles</em>, <em>\@types</em>, <em>\@widths</em>, <em>\&amp;row_sub</em> [, <em>\&amp;fmt_sub</em> ];</p>
+<p><strong>ShowBoxTable</strong> { <em>parameter</em> =&gt; <em>value</em>, ... };</p>
+<p><strong>ShowSimpleTable</strong> <em>\@titles</em>, <em>\@types</em>, <em>\@widths</em>, <em>\&amp;row_sub</em> [, <em>\&amp;fmt_sub</em>];</p>
+<p><strong>ShowSimpleTable</strong> { <em>parameter</em> =&gt; <em>value</em>, ... };</p>
+<p><strong>ShowHTMLTable</strong> <em>\@titles</em>, <em>\@types</em>, <em>\@widths</em>, <em>\&amp;row_sub</em> [, <em>\&amp;fmt_sub</em>];</p>
+<p><strong>ShowHTMLTable</strong> { <em>parameter</em> =&gt; <em>value</em>, ... };</p>
+<p><strong>ShowListTable</strong> <em>\@titles</em>, <em>\@types</em>, <em>\@widths</em>, <em>\&amp;row_sub</em> [, <em>\&amp;fmt_sub</em>];</p>
+<p><strong>ShowListTable</strong> { <em>parameter</em> =&gt; <em>value</em>, ... };</p>
+<p><code>package Data::ShowTable</code>;</p>
+<p><strong>$Show_Mode</strong> = '<em>mode</em>';</p>
+<p><strong>$Max_Table_Width</strong> = <em>number</em>;</p>
+<p><strong>$Max_List_Width</strong> = <em>number</em>;</p>
+<p><strong>$No_Escape</strong> = <em>flag</em>;</p>
+<p><strong>%URL_Keys</strong> = { ``<em>$colname</em>'' =&gt; ``<em>$col_URL</em>'', ... };</p>
+<p><strong>@Title_Formats</strong> = ( <em>fmt1_html</em>, &lt;fmt2_html&gt;, ... );</p>
+<p><strong>@Data_Formats</strong> = ( <em>fmt1_html</em>, &lt;fmt2_html&gt;, ... );</p>
+<p><strong>ShowRow</strong> <em>$rewindflag</em>, <em>\$index</em>, <em>$col_array_1</em> [, <em>$col_array_2</em>, ...;]</p>
+<p><em>$fmt</em> = <strong>ShowTableValue</strong> <em>$value</em>, <em>$type</em>, <em>$max_width</em>, <em>$width</em>, <em>$precision</em>, <em>$showmode</em>;</p>
+<p>[<em>$plaintext</em> = ] <strong>PlainText</strong> [<em>$htmltext</em>];</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The <strong>ShowTable</strong> module provides subroutines to display tabular data,
+typially from a database, in nicely formatted columns, in several formats.
+Its arguments can either be given in a fixed order, or, as
+a single, anonymous hash-array.</p>
+<p>The output format for any one invocation can be one of four possible styles:</p>
+<dl>
+<dt><strong><a name="item_box">Box</a></strong>
+
+<dd>
+<p>A tabular format, with the column titles and the entire table surrounded by a
+``box'' of ``<code>+</code>'', ``<code>-</code>'', and ``<code>|</code>'' characters.  See <a href="#showboxtable">ShowBoxTable</a> for details.</p>
+</dd>
+</li>
+<dt><strong><a name="item_table">Table</a></strong>
+
+<dd>
+<p>A simple tabular format, with columns automatically aligned, with column titles.
+See <a href="#showsimpletable">ShowSimpleTable</a>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_list">List</a></strong>
+
+<dd>
+<p>A <em>list</em> style, where columns of data are listed as a <em>name</em>:<em>value</em> pair, one
+pair per line, with rows being one or more column values, separated by an empty line.
+See <a href="#showlisttable">ShowListTable</a>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_html">HTML</a></strong>
+
+<dd>
+<p>The data is output as an HTML <em>TABLE</em>, suitable for display through a <em>Web</em>-client.
+See <a href="#showhtmltable">ShowHTMLTable</a>.  Input can either be plain ASCII text, or text
+with embedded HTML elements, depending upon an argument or global parameter.</p>
+</dd>
+</li>
+</dl>
+<p>The subroutines which perform these displays are listed below.</p>
+<p>
+</p>
+<hr />
+<h1><a name="exported_names">EXPORTED NAMES</a></h1>
+<p>This module exports the following subroutines:</p>
+<pre>
+ ShowDatabases    - show list of databases
+ ShowTables       - show list of tables
+ ShowColumns      - show table of column info
+ ShowTable        - show a table of data
+ ShowRow          - show a row from one or more columns
+ ShowTableValue   - show a single column's value
+ ShowBoxTable     - show a table of data in a box
+ ShowListTable    - show a table of data in a list
+ ShowSimpleTable  - show a table of data in a simple table
+ ShowHTMLTable    - show a table of data using HTML
+ PlainText        - convert HTML text into plain text</pre>
+<p>All of these subroutines, and others, are described in detail in the
+following sections.</p>
+<p>
+</p>
+<hr />
+<h1><a name="modules">MODULES</a></h1>
+<p>
+</p>
+<hr />
+<h1><a name="showtable">ShowTable</a></h1>
+<p>Format and display the contents of one or more rows of data.</p>
+<p>&nbsp;&nbsp;<strong>ShowTable</strong> { <em>parameter</em> =&gt; <em>value</em>, ... };</p>
+<p>&nbsp;&nbsp;<strong>ShowTable</strong> <em>\@titles</em>, <em>\@types</em>, <em>\@widths</em>, <em>\&amp;row_sub</em> 
+[, <em>\&amp;fmt_sub</em> [, <em>$max_width</em> ] [, <em>$show_mode</em> ] ];</p>
+<p>The <strong>ShowTable</strong> subroutine displays tabular data aligned in columns,
+with headers.  <strong>ShowTable</strong> supports four <em>modes</em> of display: <strong>Box</strong>, <strong>Table</strong>,
+<strong>List</strong>, and <strong>HTML</strong>.  Each mode is described separately below.</p>
+<p>The arguments to <strong>ShowTable</strong> may be given in one of two ways: as a
+hashed-array, or by a combination of fixed order arguments, and some
+package-global variable settings.  The hash-array parameters correspond
+to the fixed arguments and the global-parameter settings.</p>
+<p>In the list below, both the hash-array parameter name and the
+fixed-order argument name is given as the value.  In the case where
+there is no fixed-order argument for a given parameter-value pair, then
+the corresponding global variable name is given.</p>
+<dl>
+<dt><strong><a name="item_titles__3d_3e__5c_40titles"><code>titles</code> =&gt; <em>\@titles</em></a></strong>
+
+<dd>
+<p>A reference to an array of column names, or titles.  If a particular column name
+is null, then the string <code>Field_num</code> is used by default.  To have a column
+have no title, use the empty string.</p>
+</dd>
+</li>
+<dt><strong><a name="item_types__3d_3e__5c_40types"><code>types</code> =&gt; <em>\@types</em></a></strong>
+
+<dd>
+<p>A reference to an array of types, one for each column.  These types are
+passed to the <em>fmt_sub</em> for appropriate formatting.  Also, if a column
+type matches the regexp ``<code>/text|char|string/i</code>'', then the column
+alignment will be left-justified, otherwise it will be right-justified.</p>
+</dd>
+</li>
+<dt><strong><a name="item_widths__3d_3e__5c_40widths"><code>widths</code> =&gt; <em>\@widths</em></a></strong>
+
+<dd>
+<p>A reference to an array of column widths, which may be given as an integer, or
+as a string of the form: ``<em>width</em>.<em>precision</em>''.</p>
+</dd>
+</li>
+<dt><strong><a name="item_row_sub__3d_3e__5c_26row_sub"><code>row_sub</code> =&gt; <em>\&amp;row_sub</em></a></strong>
+
+<dd>
+<p>A reference to a subroutine which successively returns rows of values in an array.
+It is called for two purposes, each described separately:</p>
+</dd>
+<dd>
+<p>* To fetch successive rows of data:</p>
+</dd>
+<dd>
+<pre>
+    @row = &amp;$row_sub(0);</pre>
+</dd>
+<dd>
+<p>When given a null, zero, or empty argument, the next row is returned.</p>
+</dd>
+<dd>
+<p>* To initialize or rewind the data traversal.</p>
+</dd>
+<dd>
+<pre>
+    $rewindable = &amp;$row_sub(1);</pre>
+</dd>
+<dd>
+<p>When invoked with a non-null argument, the subroutine should rewind its
+row pointer to start at the first row of data.  If the data which
+<em>row_sub</em> is traversing is not rewindable, it must return zero or null.
+If the data is rewindable, a non-null, non-zero value should be returned.</p>
+</dd>
+<dd>
+<p>The <em>row_sub</em> must expect to be invoked once with a non-null argument,
+in order to discover whether or not the data is rewindable.  If the data
+cannot be rewound, <em>row_sub</em> will thereafter only be called with a zero
+argument.</p>
+</dd>
+<dd>
+<p>Specifically, <em>row_sub</em> subroutine is used in this manner:</p>
+</dd>
+<dd>
+<pre>
+    $rewindable = &amp;$row_sub(1);
+    if ($rewindable) {
+        while ((@row = &amp;$row_sub(0)), $#row &gt;= 0) {
+            # examine lengths for optimal formatting
+        }
+        &amp;$row_sub(1);   # rewind
+    }
+    while ((@row = &amp;$row_sub(0)), $#row &gt;= 0) {
+        # format the data
+    }</pre>
+</dd>
+<dd>
+<p>The consequence of data that is not rewindable, a reasonably nice table
+will still be formatted, but it may contain fairly large amounts of
+whitespace for wide columns.</p>
+</dd>
+</li>
+<dt><strong><a name="item_fmtsub__3d_3e__5c_26fmt_sub"><code>fmtsub</code> =&gt; <em>\&amp;fmt_sub</em></a></strong>
+
+<dd>
+<p>A reference to a subroutine which formats a value, according to its
+type, width, precision, and the current column width.  It is invoked
+either with a fixed list of arguments, or with a hash-array of parameter
+and value pairs.</p>
+</dd>
+<dd>
+<pre>
+  $string = &amp;fmt_sub { I&lt;parameter&gt; =&gt; I&lt;value&gt;, ... };</pre>
+</dd>
+<dd>
+<pre>
+  $string = &amp;fmt_sub($value, $type, $max_width, $width, $precision)</pre>
+</dd>
+<dd>
+<p>If <em>\&amp;fmt_sub</em> is omitted, then a default subroutine, <strong>ShowTableValue</strong>, 
+will be used, which will use Perl's standard string formatting rules.</p>
+</dd>
+<dd>
+<p>The arguments to <em>\&amp;fmt_sub</em>, either as values passed in a fixed
+order, or as part of the parameter value pair, are described in the
+section on <a href="#showtablevalue">ShowTableValue</a> below.</p>
+</dd>
+</li>
+<dt><strong><a name="item_max_width__3d_3e_number_2c"><code>max_width</code> =&gt; <em>number</em>,</a></strong>
+
+<dd>
+<p>The maximum table width, including the table formatting characters.  If
+not given, defaults to the global variable <strong>$Max_Table_Width</strong>;</p>
+</dd>
+</li>
+<dt><strong><a name="item_show_mode__3d_3e__27mode_27_2c"><code>show_mode</code> =&gt; '<em>mode</em>',</a></strong>
+
+<dd>
+<p>The display mode of the output.  One of five strings: <code>'Box'</code>,
+<code>'Table'</code>, <code>'Simple'</code>, <code>'List'</code>, and <code>'HTML'</code>.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="showdatabases">ShowDatabases</a></h1>
+<p>Show a list of database names.</p>
+<p>&nbsp;&nbsp;<strong>ShowDatabases</strong> <em>\@dbnames</em>;</p>
+<p>&nbsp;&nbsp;<strong>ShowDatabases</strong> { 'data' =&gt; <em>\@dbnames</em>, <em>parameter</em> =&gt;
+<em>value</em>, ...};</p>
+<p><strong>ShowDatabases</strong> is intended to be used to display a list of database
+names, under the column heading of ``Databases''.  It is a special case
+usage of <strong>ShowTable</strong> (and can thus be passed any parameter suitable 
+for <strong>ShowTable</strong>.</p>
+<p>The argument, <em>\@dbnames</em>, is a reference to an array of strings, used
+as the values of the single column display.</p>
+<p>
+</p>
+<hr />
+<h1><a name="showtables">ShowTables</a></h1>
+<p>Show an array of table names.</p>
+<p>&nbsp;&nbsp;<strong>ShowTables</strong> <em>\@tblnames</em>;</p>
+<p>&nbsp;&nbsp;<strong>ShowTables</strong> { 'data' =&gt; <em>\@tblnames</em>, <em>parameter</em> =&gt; <em>value</em>, ...};</p>
+<p><strong>ShowTables</strong> is used to display a list of table names, under the column
+heading of ``Tables''.  It is a special case usage of <strong>ShowTable</strong>, and can
+be passed any <a href="#showtable">ShowTable</a> argument parameter.</p>
+<p>
+</p>
+<hr />
+<h1><a name="showcolumns">ShowColumns</a></h1>
+<p>Display a table of column names, types, and attributes.</p>
+<p>&nbsp;&nbsp;<strong>ShowColumns</strong> { <em>parameter</em> =&gt; <em>values</em>, ... };</p>
+<p>&nbsp;&nbsp;<strong>ShowColumns</strong> <em>\@columns</em>, <em>\@col_types</em>, <em>\@col_lengths</em>, <em>\@col_attrs</em>;</p>
+<p>The <strong>ShowColumns</strong> subroutine displays a table of column names, types, lengths,
+and other attributes in a nicely formatted table.  It is a special case usage
+of <strong>ShowTable</strong>, and can be passed any argument suitable for <a href="#showtable">ShowTable</a>;</p>
+<p>The arguments are:</p>
+<dl>
+<dt><strong><a name="item_columns__3d__5c_40columns"><code>columns</code> = <em>\@columns</em></a></strong>
+
+<dd>
+<p>An array of column names.  This provides the value for the first column
+of the output.</p>
+</dd>
+</li>
+<dt><strong><a name="item_col_types__3d__5c_40col_types"><code>col_types</code> = <em>\@col_types</em></a></strong>
+
+<dd>
+<p>An array of column types names.  This provides the value for the second
+column.</p>
+</dd>
+</li>
+<dt><strong><a name="item_col_lengths__3d__5c_40col_lengths"><code>col_lengths</code> = <em>\@col_lengths</em></a></strong>
+
+<dd>
+<p>An array of maximum lengths for corresponding columns.  This provides
+the value for the third column of the output.</p>
+</dd>
+</li>
+<dt><strong><a name="item_col_attrs__3d__5c_40col_attrs"><code>col_attrs</code> = <em>\@col_attrs</em></a></strong>
+
+<dd>
+<p>An array of column attributes array references (ie: an array of arrays).
+The attributes array for the first column are at ``<em>$col_attrs</em>-\&gt;[0]''.
+The first attribute of the second column is ``<em>$col_attrs</em>-\&gt;[1][0]''.</p>
+</dd>
+</li>
+</dl>
+<p>The columns, types, lengths, and attributes are displayed in a table
+with the column headings: ``Column'', ``Type'', ``Length'', and ``Attributes''.
+This is a special case usage of <strong>ShowTable</strong>, and can be passed
+additional arguments suitable for <a href="#showtable">ShowTable</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="showboxtable">ShowBoxTable</a></h1>
+<p>Show tabular data in a box.</p>
+<p>&nbsp;&nbsp;<strong>ShowBoxTable</strong> { <em>parameter</em> = <em>value</em>, ... };</p>
+<p>&nbsp;&nbsp;<strong>ShowBoxTable</strong> <em>\@titles</em>, <em>\@types</em>, <em>\@widths</em>, <em>\&amp;row_sub</em>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[, [ <em>\&amp;fmt_sub</em> ] [, <em>$max_width</em> ] ];</p>
+<p>The <strong>ShowBoxTable</strong> displays tabular data in titled columns using a ``box'' 
+of ASCII graphics, looking something like this:</p>
+<pre>
+        +------------+----------+-----+----------+ 
+        | Column1    | Column2  | ... | ColumnN  |
+        +------------+----------+-----+----------+
+        | Value11    | Value12  | ... | Value 1M |
+        | Value21    | Value22  | ... | Value 2M |
+        | Value31    | Value32  | ... | Value 3M |
+        |  ...       |  ...     | ... |  ...     |
+        | ValueN1    | ValueN2  | ... | Value NM |
+        +------------+----------+-----+----------+</pre>
+<p>The arguments are the same as with <a href="#showtable">ShowTable</a>.  If the <em>@titles</em> array
+is empty, the header row is omitted.</p>
+<p>
+</p>
+<hr />
+<h1><a name="showsimpletable">ShowSimpleTable</a></h1>
+<p>Display a table of data using a simple table format.</p>
+<p>&nbsp;&nbsp;<strong>ShowSimpleTable</strong> <em>\@titles</em>, <em>\@types</em>, <em>\@widths</em>, <em>\&amp;row_sub</em> [, <em>\&amp;fmt_sub</em>];</p>
+<p>&nbsp;&nbsp;<strong>ShowSimpleTable</strong> { <em>parameter</em> =&gt; <em>values</em>, ... };</p>
+<p>The <strong>ShowSimpleTable</strong> subroutine formats data into a simple table of
+aligned columns, in the following example:</p>
+<pre>
+   Column1  Column2  Column3
+   -------  -------  -------
+   Value1   Value2   Value3
+   Value12  Value22  Value32</pre>
+<p>Columns are auto-sized by the data's widths, plus two spaces between columns.
+Values which are too long for the maximum colulmn width are wrapped within
+the column.</p>
+<p>
+</p>
+<hr />
+<h1><a name="showhtmltable">ShowHTMLTable</a></h1>
+<p>Display a table of data nicely using HTML tables.</p>
+<p>&nbsp;&nbsp;<strong>ShowHTMLTable</strong> { <em>parameter</em> =&gt; <em>value</em>, ... };</p>
+<p>&nbsp;&nbsp;<strong>ShowHTMLTable</strong> <em>\@titles</em>, <em>\@types</em>, <em>\@widths</em>, <em>\&amp;row_sub</em>
+[, <em>\&amp;fmt_sub</em> [, <em>$max_width</em> [, <em>\%URL_Keys</em> [, <em>$no_escape</em> 
+[, <em>\@title_formats</em> [, <em>\@data_formats</em> [, <em>$table_attrs</em> ] ] ] ] ] ] ];</p>
+<p>The <strong>ShowHTMLTable</strong> displays one or more rows of columns of data using
+the HTML <code>\&lt;TABLE\</code>&gt; feature.  In addition to the usual parameter arguments
+of <a href="#showtable">ShowTable</a>, the following parameter arguments are defined:</p>
+<dl>
+<dt><strong><a name="item_url_keys__3d_3e__5c_25url_keys_2c"><code>url_keys</code> =&gt; <em>\%URL_Keys</em>,</a></strong>
+
+<dd>
+<p>This is a hash array of column names (titles) and corresponding base
+URLs.  The values of any column names or indexes occuring as keys in
+the hash array will be generated as hypertext anchors using the
+associated <em>printf</em>-like string as the base URL. Either the column name
+or the column index (beginning with 1) may be used as the hash key.</p>
+</dd>
+<dd>
+<p>In the string value, these macros can be substituted:</p>
+</dd>
+<dd>
+<p>``<code>%K</code>'' is replaced with the column name.</p>
+</dd>
+<dd>
+<p>``<code>%V</code>'' is replaced with the column value;</p>
+</dd>
+<dd>
+<p>``<code>%I</code>'' is replaced with the column index.</p>
+</dd>
+<dd>
+<p>For example, if we define the array:</p>
+</dd>
+<dd>
+<pre>
+    $base_url = &quot;<a href="http://www">http://www</a>.$domain/cgi/lookup?col=%K?val=%V&quot;;
+    %url_cols = ('Author' =&gt; $base_url,
+                 'Name'   =&gt; $base_url);</pre>
+</dd>
+<dd>
+<p>Then, the values in the <code>Author</code> column will be generated with the following
+HTML text:</p>
+</dd>
+<dd>
+<pre>
+    &lt;A HREF=&quot;<a href="http://www">http://www</a>.$domain/cgi/lookup?col=Author?val=somevalue&gt;somevalue&lt;/A&gt;</pre>
+</dd>
+<dd>
+<p>and the values in the <code>Name</code> column will be generated with the URL:</p>
+</dd>
+<dd>
+<pre>
+    &lt;A HREF=&quot;<a href="http://www">http://www</a>.$domain/cgi/lookup?col=Name?val=othervalue&gt;othervalue&lt;/A&gt;</pre>
+</dd>
+<dd>
+<p>If this variable is not given, it will default to the global variable
+<code>\%URL_Keys</code>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_no_escape__3d_3e_boolean_2c"><code>no_escape</code> =&gt; <em>boolean</em>,</a></strong>
+
+<dd>
+<p>Unless <strong>$no_escape</strong> is set, HTML-escaping is performed on the data
+values in order to properly display the special HTML formatting
+characters : '\&lt;', '\&gt;', and '&amp;'.  If you wish to display data with
+embedded HTML text, you must set <strong>$no_escape</strong>.</p>
+</dd>
+<dd>
+<p>Enabling embedded HTML, turns on certain heuristics which enable the
+user to more completely define appearance of the table.  For instance,
+any <code>\&lt;TR\</code>&gt; tokens found embedded *anywhere* within a row of data will
+be placed at the front of the row, within the generated <code>\&lt;TR\</code>&gt;.</p>
+</dd>
+<dd>
+<p>Similarly, a row of data containing the <code>\&lt;THEAD\</code>&gt; or <code>\&lt;TFOOT\</code>&gt;
+tokens, and their closing counterparts, will begin and end, respectively
+a table header or footer data.</p>
+</dd>
+</li>
+<dt><strong><a name="item_title_formats__3d_3e__5c_40title_formats_2c"><code>title_formats</code> =&gt; <em>\@title_formats</em>,</a></strong>
+
+<dt><strong><a name="item_tformats__3d_3e__5c_40title_formats_2c"><code>tformats</code> =&gt; <em>\@title_formats</em>,</a></strong>
+
+<dd>
+<p>An array of HTML formatting elements for the column titles, one for each
+column.  Each array element is a list of one or more HTML elements,
+given as <code>\&lt;ELEMENT\</code>&gt; or plainly, <code>ELEMENT</code>, and separated by a comma
+<code>','</code>, semi-colon <code>';'</code>, or vertical bar <code>'|'</code>.  Each given HTML
+element is prepended to the corresponding column title, in the order
+given.  The corresponding HTML closing elements are appended in the
+opposite order.</p>
+</dd>
+<dd>
+<p>For example, if <em>\@title_formats</em> contains the two elements:</p>
+</dd>
+<dd>
+<pre>
+    [ 'FONT SIZE=+2,BOLD', 'FONT COLOR=red,EM' ]</pre>
+</dd>
+<dd>
+<p>then the text output for the title of the first column would be:</p>
+</dd>
+<dd>
+<pre>
+    &lt;FONT SIZE=+2&gt;&lt;BOLD&gt;I&lt;column_1_title&gt;&lt;/BOLD&gt;&lt;/FONT&gt;</pre>
+</dd>
+<dd>
+<p>If <code>title_formats</code> is omitted, the global variable <strong>@Title_Formats</strong>
+is used by default.</p>
+</dd>
+</li>
+<dt><strong><a name="item_data_formats__3d_3e__5c_40data_formats_2c"><code>data_formats</code> =&gt; <em>\@data_formats</em>,</a></strong>
+
+<dt><strong><a name="item_dformats__3d_3e__5c_40data_formats_2c"><code>dformats</code> =&gt; <em>\@data_formats</em>,</a></strong>
+
+<dd>
+<p>Similar to <code>title_formats</code>, this array provides HTML formatting for
+the columns of each row of data.  If <code>data_formats</code> is omitted or
+null, then the global variable <strong>\@Data_Formats</strong> is used by default.</p>
+</dd>
+</li>
+<dt><strong><a name="item_table_attrs__3d_3e__24table_attrs_2c"><code>table_attrs</code> =&gt; <em>$table_attrs</em>,</a></strong>
+
+<dd>
+<p>This variable defines a string of attributes to be inserted within the
+<code>\&lt;TABLE\</code>&gt; token.  For example, if the user wishes to have no table
+border:</p>
+</dd>
+<dd>
+<pre>
+    ShowHTMLTable { 
+        ...
+        table_attrs =&gt; 'BORDER=0', 
+        ...
+    };</pre>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="showlisttable">ShowListTable</a></h1>
+<p>Display a table of data using a list format.</p>
+<p>&nbsp;&nbsp;<strong>ShowListTable</strong> { <em>parameter</em> =&gt; <em>value</em>, ... };</p>
+<p>&nbsp;&nbsp;<strong>ShowListTable</strong> <em>\@titles</em>, <em>\@types</em>, <em>\@widths</em>, <em>\&amp;row_sub</em> 
+[, <em>\&amp;fmt_sub</em> [, <em>$max_width</em> [, <em>$wrap_margin</em> ] ] ];</p>
+<p>The arguments for <strong>ShowListTable</strong> are the same as for <a href="#showtable">ShowTable</a>,
+except for those described next.</p>
+<dl>
+<dt><strong><a name="item_max_width__3d_number_2c"><code>max_width</code> = <em>number</em>,</a></strong>
+
+<dt><strong><a name="item_wrap_margin__3d_number_2c"><code>wrap_margin</code> = <em>number</em>,</a></strong>
+
+<dd>
+<p>Lines are truncated, and wrapped when their length exceeds
+<em>$max_width</em>.  Wrapping is done on a word-basis, unless the resulting
+right margin exceeds <em>$wrap_margin</em>, in which case the line is simply
+truncated at the <em>$max_width</em> limit.</p>
+</dd>
+<dd>
+<p>The <em>$max_width</em> variable defaults to <strong>$Max_List_Width</strong>.  The
+<em>$wrap_margin</em> defaults to <strong>$List_Wrap_Margin</strong>.</p>
+</dd>
+</li>
+</dl>
+<p>In <em>List</em> mode, columns (called ``fields'' in List mode) are displayed
+wth a field name and value pair per line, with records being one or
+more fields .  In other words, the output of a table would
+look something like this:</p>
+<pre>
+    Field1_1: Value1_1
+    Field1_2: Value1_2
+    Field1_3: Value1_3
+    ...
+    Field1-N: Value1_M
+    &lt;empty line&gt;
+    Field2_1: Value2_1
+    Field2_2: Value2_2
+    Field2_3: Value2_3
+    ...
+    Field2_N: Value2_N
+    ...
+    FieldM_1: ValueM_1
+    FieldM_2: ValueM_2
+    ...
+    FieldM_N: ValueM_N
+    &lt;empty line&gt;
+    &lt;empty line&gt;</pre>
+<p>Characteristics of <em>List</em> mode:</p>
+<ul>
+<li>
+<p>two empty lines indicate the end of data.</p>
+</li>
+<li>
+<p>An empty field (column) may be omitted, or may have a label, but no
+data.</p>
+</li>
+<li>
+<p>A long line can be continue by a null field (column):</p>
+<pre>
+    Field2: blah blah blah
+          : blah blah blah</pre>
+</li>
+<li>
+<p>On a continuation, the null field is an arbitrary number of leading
+white space, a colon ':', a single blank or tab, followed by the
+continued text.</p>
+</li>
+<li>
+<p>Embedded newlines are indicated by the escape mechanism ``\n''.
+Similarly, embedded tabs are indicated with ``\t'', returns with ``\r''.</p>
+</li>
+<li>
+<p>If the <em>@titles</em> array is empty, the field names ``<code>Field_</code><em>NN</em>'' are used
+instead.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="showrow">ShowRow</a></h1>
+<p>Fetch rows successively from one or more columns of data.</p>
+<p>&nbsp;&nbsp;<strong>ShowRow</strong> <em>$rewindflag</em>, <em>\$index</em>, <em>$col_array_1</em> [, <em>$col_array_2</em>, ...;]</p>
+<p>The <strong>ShowRow</strong> subroutine returns a row of data from one or more
+columns of data.  It is designed to be used as a <em>callback</em> routine,
+within the <strong>ShowTable</strong> routine.   It can be used to select elements
+from one or more array reference arguments.</p>
+<p>If passed two or more array references as arguments, elements of the
+arrays selected by <em>$index</em> are returned as the ``row'' of data.</p>
+<p>If a single array argument is passed, and each element of the array is
+itself an array, the subarray is returned as the ``row'' of data.</p>
+<p>If the <em>$rewindflag</em> flag is set, then the <em>$index</em> pointer is reset
+to zero, and ``true'' is returned (a scalar 1).  This indicates that the
+data is rewindable to the <strong>ShowTable</strong> routines.</p>
+<p>When the <em>$rewindflag</em> is not set, then the current row of data, as
+determined by <em>$index</em> is returned, and <em>$index</em> will
+have been incremented.</p>
+<p>An actual invocation (from <strong>ShowColumns</strong>) is:</p>
+<pre>
+  ShowTable \@titles, \@types, \@lengths, 
+      sub { &amp;ShowRow( $_[0], \$current_row, $col_names, $col_types,
+                      $col_lengths, \@col_attrs); };</pre>
+<p>In the example above, after each invocation, the <em>$current_row</em> argument 
+will have been incremented.</p>
+<p>
+</p>
+<hr />
+<h1><a name="showtablevalue">ShowTableValue</a></h1>
+<p>Prepare and return a formatted representation of a value.  A value
+argument, using its corresponding type, effective width, and precision
+is formatted into a field of a given maximum width.</p>
+<p>&nbsp;&nbsp;<em>$fmt</em> = <strong>ShowTableValue</strong> <em>$value</em>, <em>$type</em>, <em>$max_width</em>, <em>$width</em>, <em>$precision</em>, <em>$showmode</em>;</p>
+<dl>
+<dt><strong><a name="item_width__3d_3e__24width"><code>width</code> =&gt; <em>$width</em></a></strong>
+
+<dt><strong><a name="item__width"><em>$width</em></a></strong>
+
+<dd>
+<p>The width of the current value.  If omittied, <em>$max_width</em> is assumed.</p>
+</dd>
+</li>
+<dt><strong><a name="item_precision__3d_3e__24precision"><code>precision</code> =&gt; <em>$precision</em></a></strong>
+
+<dt><strong><a name="item__precision"><em>$precision</em></a></strong>
+
+<dd>
+<p>The number of decimal digits; zero is assumed if omittied.</p>
+</dd>
+</li>
+<dt><strong><a name="item_value__3d_3e__24value"><code>value</code> =&gt; <em>$value</em></a></strong>
+
+<dt><strong><a name="item__value"><em>$value</em></a></strong>
+
+<dd>
+<p>The value to be formatted.</p>
+</dd>
+</li>
+<dt><strong><a name="item__type"><em>$type</em></a></strong>
+
+<dd>
+<p>The type name of the value; eg: <code>char</code>, <code>varchar</code>, <code>int</code>, etc.</p>
+</dd>
+</li>
+<dt><strong><a name="item_maxwidth__3d_3e__24max_width"><code>maxwidth</code> =&gt; <em>$max_width</em></a></strong>
+
+<dt><strong><a name="item__max_width"><em>$max_width</em></a></strong>
+
+<dd>
+<p>The maximum width of any value in the current value's column.  If <em>$width</em>
+is zero or null, <em>$max_width</em> is used by default.  <em>$max_width</em> is also
+used as a <em>minimum</em> width, in case <em>$width</em> is a smaller value.</p>
+</dd>
+</li>
+<dt><strong><em>$width</em></strong>
+
+<dd>
+<p>The default width of the value, obtained from the width specification of the
+column in which this value occurs.</p>
+</dd>
+</li>
+<dt><strong><em>$precision</em></strong>
+
+<dd>
+<p>The precision specification, if any, from the column width specification.</p>
+</dd>
+</li>
+<dt><strong><a name="item__showmode"><em>$showmode</em></a></strong>
+
+<dd>
+<p>The mode of the output: one of ``table'', ``list'', ``box'', or ``html''.  Currently,
+only the ``html'' mode is significant: it is used to avoid using HTML tokens
+as part of the formatted text and length calculations.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="plaintext">PlainText</a></h1>
+<p>&nbsp;&nbsp;<em>$plaintext</em> = <strong>&amp;PlainText</strong>(<em>$htmltext</em>);</p>
+<p>&nbsp;&nbsp;<strong>&amp;PlainText</strong></p>
+<p>This function removes any HTML formatting sequences from the input argument,
+or from <code>$_</code> if no argument is given.  The resulting plain text is returned
+as the result.</p>
+<p>
+</p>
+<hr />
+<h1><a name="variables">VARIABLES</a></h1>
+<p>The following variables may be set by the user to affect the display (with
+the defaults enclosed in square brackets [..]):</p>
+<dl>
+<dt><strong><a name="item__show_mode"><strong>$Show_Mode</strong> [Box]</a></strong>
+
+<dd>
+<p>This is the default display mode when using <strong>ShowTable</strong>.  The
+environment variable, <code>$ENV{'SHOW_MODE'}</code>, is used when this variable is
+null or the empty string.  The possible values for this variable are:
+<code>&quot;Box&quot;</code>, <code>&quot;List&quot;</code>, <code>&quot;Table&quot;</code>, and <code>&quot;HTML&quot;</code>.  Case is insignificant.</p>
+</dd>
+</li>
+<dt><strong><a name="item__list_wrap_margin"><strong>$List_Wrap_Margin</strong> [2]</a></strong>
+
+<dd>
+<p>This variable's value determines how large a margin to keep before wrarpping a
+long value's display in a column.  This value is only used in ``List'' mode.</p>
+</dd>
+</li>
+<dt><strong><a name="item__max_list_width"><strong>$Max_List_Width</strong> [80]</a></strong>
+
+<dd>
+<p>This variable, used in ``List'' mode, is used to determine how long an output line
+may be before wrapping it.  The environment variable, <code>$ENV{'COLUMNS'}</code>, is
+used to define this value when it is null.</p>
+</dd>
+</li>
+<dt><strong><a name="item__max_table_width"><strong>$Max_Table_Width</strong> ['']</a></strong>
+
+<dd>
+<p>This variable, when set, causes all tables to have their columns scaled
+such that their total combined width does not exceed this value.  When
+this variable is not set, which is the default case, there is no maximum
+table width, and no scaling will be done.</p>
+</dd>
+</li>
+<dt><strong><a name="item__no_escape"><strong>$No_Escape</strong> ['']</a></strong>
+
+<dd>
+<p>If set, allows embedded HTML text to be included in the data displayed
+in an HTML-formatted table.  By default, the HTML formatting characters
+(``&lt;'', ``&gt;'', and ``&amp;'') occuring in values are escaped.</p>
+</dd>
+</li>
+<dt><strong><a name="item__url_keys"><strong>%URL_Keys</strong></a></strong>
+
+<dd>
+<p>In HTML mode, this variable is used to recognize which columns are to be 
+displayed with a corresponding hypertext anchor.  See <a href="#showhtmltable">ShowHTMLTable</a> 
+for more details.</p>
+</dd>
+</li>
+<dt><strong><a name="item__html_elements"><strong>@HTML_Elements</strong></a></strong>
+
+<dd>
+<p>An array of HTML elements (as of HTML 3.0) used to recognize and strip for 
+width calculations.</p>
+</dd>
+</li>
+<dt><strong><a name="item__html_elements"><strong>$HTML_Elements</strong></a></strong>
+
+<dd>
+<p>A regular expression string formed from the elements of <strong>@HTML_Elements</strong>.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="internal_subroutines">INTERNAL SUBROUTINES</a></h1>
+<p>
+</p>
+<hr />
+<h1><a name="get_params">get_params</a></h1>
+<p>&nbsp;&nbsp;my <em>$args</em> = <strong>&amp;get_params</strong> <em>\@argv</em>, <em>\%params</em>, <em>\@arglist</em>;</p>
+<p>Given the <em>@argv</em> originally passed to the calling sub, and the hash of
+named parameters as <em>%params</em>, and the array of parameter names in the
+order expected for a pass-by-value invocation, set the values of each of
+the variables named in <em>@vars</em>.</p>
+<p>If the only element of the <em>@argv</em> is a hash array, then set the
+variables to the values of their corresponding parameters used as keys
+to the hash array.  If the parameter is not a key of the <em>%params</em>
+hash, and is not a key in the global hash <strong>%ShowTableParams</strong>, then an
+error is noted.</p>
+<p>When <em>@argv</em> has multiple elements, or is not a hash array, set each
+variable, in the order given within <em>@arglist</em>, to the values from the
+<em>@argv</em>, setting the variables named by each value in <em>%params</em>.</p>
+<p>Variables may given either by name or by reference.</p>
+<p>The result is a HASH array reference, either corresponding directly to
+the HASH array passed as the single argument, or one created by
+associating the resulting variable values to the parameter names
+associated with the variable names.</p>
+<p>
+</p>
+<hr />
+<h1><a name="html_formats">html_formats</a></h1>
+<p>&nbsp;&nbsp;(<em>$prefixes</em>,<em>$suffixes</em>) = <strong>html_formats</strong> <em>\@html_formats</em>;</p>
+<p>The <strong>html_format</strong> function takes an array reference of HTML formatting
+elements <em>\@html_formats</em>, and builds two arrays of strings: the first:
+<em>$prefixes</em>, is an array of prefixes containing the corresponding HTML
+formatting elements from <em>\@html_formats</em>, and the second,
+<em>$suffixes</em>, containing the appropriate HTML closing elements, in the
+opposite order.</p>
+<p>The result is designed to be used as prefixes and suffixes for the
+corresponding titles and column values.</p>
+<p>The array <em>\@html_formats</em> contains lists of HTML formatting elements,
+one for each column (either title or data).  Each array element is a
+list of one or more HTML elements, either given in HTML syntax, or as a
+``plain'' name (ie: given as <code>\&lt;ELEMENT\</code>&gt; or plainly, <code>ELEMENT</code>).
+Multiple elements are separated by a comma <code>','</code>.</p>
+<p>The resulting array of <em>$prefixes</em> contains the corresponding opening
+elements, in the order given, with the proper HTML element syntax.  The
+resulting array of <em>$suffixes</em> contains the closing elements, in the
+opposite order given, with the proper HTML element syntax.</p>
+<p>For example, if <em>\@html_formats</em> contains the two elements:</p>
+<pre>
+    [ 'FONT SIZE=+2,BOLD', 'FONT COLOR=red,EM' ]</pre>
+<p>then the resulting two arrays will be returned as:</p>
+<pre>
+    [ [ '&lt;FONT SIZE=+2&gt;&lt;BOLD&gt;', '&lt;FONT COLOR=red&gt;&lt;EM&gt;' ],
+      [ '&lt;/FONT&gt;&lt;/BOLD&gt;',       '&lt;/FONT&gt;&lt;/EM&gt;' ] ]</pre>
+<p>
+</p>
+<hr />
+<h1><a name="calc_widths">calc_widths</a></h1>
+<p>&nbsp;&nbsp;(<em>$num_cols</em>, <em>$widths</em>, <em>$precision</em>, <em>$max_widths</em>) =
+&nbsp;&nbsp;<strong>&amp;calc_widths</strong>( <em>$widthspec</em>, <em>$titles</em>, <em>$rewindable</em>,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>$row_sub</em>, <em>$fmt_sub</em>, <em>$types</em>, <em>$showmode</em>, 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>$max_width</em>);</p>
+<p>
+</p>
+<h2><a name="description"><strong>DESCRIPTION</strong></a></h2>
+<p><strong>calc_widths</strong> is a generalized subroutine used by all the <strong>ShowTable</strong>
+variant subroutines to setup internal variables prior to formatting for
+display.  <strong>Calc_widths</strong> handles the column width and precision
+analysis, including scanning the data (if rewindable) for appropriate
+default values.</p>
+<p>The number of columns in the data is returned, as well as three arrays:
+the declared column widths, the column precision values, and the maximum
+column widths.</p>
+<p>
+</p>
+<h2><a name="return_values"><strong>RETURN VALUES</strong></a></h2>
+<dl>
+<dt><strong><a name="item__num_cols"><em>$num_cols</em></a></strong>
+
+<dd>
+<p>is the number of columns in the data.  If the data is not rewindable,
+this is computed as the maximum of the number of elements in the
+<em>$widthspec</em> array and the number of elements in the <em>$titles</em>
+array.  When the data is rewindable, this is the maximum of the number
+of columns of each row of data.</p>
+</dd>
+</li>
+<dt><strong><a name="item__widths"><em>$widths</em></a></strong>
+
+<dd>
+<p>is the column widths array ref, without the precision specs (if any).
+Each column's width value is determined by the original <em>$widthspec</em>
+value and/or the maximum length of the formatted data for the column.</p>
+</dd>
+</li>
+<dt><strong><em>$precision</em></strong>
+
+<dd>
+<p>is the precision component (if any) of the original <em>$widthspec</em>
+array ref.  If there was no original precision component from the <em>$widthspec</em>,
+and the data is rewindable, then the data is examined to determine the
+maximum default precision.</p>
+</dd>
+</li>
+<dt><strong><a name="item__max_widths"><em>$max_widths</em></a></strong>
+
+<dd>
+<p>is the ref to the array of maximum widths for the given columns.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="arguments"><strong>ARGUMENTS</strong></a></h2>
+<dl>
+<dt><strong><a name="item__widthspec"><em>$widthspec</em></a></strong>
+
+<dd>
+<p>A reference to an array of column width (or length) values, each given
+as an integer, real number, or a string value of
+``<em>width</em>.<em>precision</em>''.  If a value is zero or null, the length of the
+corresponding formatted data (if rewindable) and column title length are
+used to determine a reasonable default.</p>
+</dd>
+<dd>
+<p>If a column's <em>width</em> portion is a positive, non-zero number, then the
+column will be this wide, regardless of the values lengths of the data
+in the column.</p>
+</dd>
+<dd>
+<p>If the column's <em>width</em> portion is given as a negative number, then the
+positive value is used as a minimum column width, with no limit on the
+maximum column width.  In other words, the column will be at least
+<em>width</em> characters wide.</p>
+</dd>
+<dd>
+<p>If the data is not rewindable, and a column's width value is null or
+zero, then the length of the column title is used.  This may cause severe
+wrapping of data in the column, if the column data lengths are much
+greater than the column title widths.</p>
+</dd>
+</li>
+<dt><strong><a name="item__titles"><em>$titles</em></a></strong>
+
+<dd>
+<p>The array ref to the column titles; used to determine the minimum
+acceptable width, as well as the default number of columns.  If the
+<a href="#item__titles"><code>$titles</code></a> array is empty, then the <a href="#item__widthspec"><code>$widthspec</code></a> array is used to
+determine the default number of columns.</p>
+</dd>
+</li>
+<dt><strong><a name="item__rewindable"><em>$rewindable</em></a></strong>
+
+<dd>
+<p>A flag indicating whether or not the data being formatted is rewindable.
+If this is true, a pass over the data will be done in order to calculate
+the maximum lengths of the actual formatted data, using <em>$fmt_sub</em>
+(below), rather than just rely on the declared column lengths.  This
+allows for optimal column width adjustments (ie: the actual column
+widths may be less than the declared column widths).</p>
+</dd>
+<dd>
+<p>If it is not desired to have the column widths dynamically adjusted,
+then set the <em>$rewindable</em> argument to 0, even if the data is
+rewindable.</p>
+</dd>
+</li>
+<dt><strong><a name="item__row_sub"><em>$row_sub</em></a></strong>
+
+<dd>
+<p>The code reference to the subroutine which returns the data; invoked
+only if <em>$rewindable</em> is non-null.</p>
+</dd>
+</li>
+<dt><strong><a name="item__fmt_sub"><em>$fmt_sub</em></a></strong>
+
+<dd>
+<p>The subroutine used to determine the length of the data when formatted;
+if this is omitted or null, the length of the data is used by default.
+The <em>$fmt_sub</em> is used only when the data is rewindable.</p>
+</dd>
+</li>
+<dt><strong><a name="item__types"><em>$types</em></a></strong>
+
+<dd>
+<p>An array reference to the types of each of the value columns; used only 
+when <em>$fmt_sub</em> is invoked.</p>
+</dd>
+</li>
+<dt><strong><em>$showmode</em></strong>
+
+<dd>
+<p>A string indicating the mode of the eventual display; one of four strings:
+``<code>box</code>'', ``<code>table</code>'', ``<code>list</code>'', and ``<code>html</code>''.  Used to adjust widths
+for formatting requirements.</p>
+</dd>
+</li>
+<dt><strong><em>$max_width</em></strong>
+
+<dd>
+<p>The maximum width of the table being formatted.  If set, and the total
+sum of the individual columns exceeds this value, the column widths are
+scaled down uniformly.  If not set (null), no column width scaling is done.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="putcell">putcell</a></h1>
+<p>&nbsp;&nbsp;<em>$wrapped</em> = <strong>&amp;putcell</strong>( <em>\@cells</em>, <em>$c</em>, <em>$cell_width</em>, <em>\@prefix</em>, <em>\@suffix</em>, <em>$wrap_flag</em> );</p>
+<p>Output the contents of an array cell at <em>$cell</em>[<em>$c</em>], causing text
+longer than <em>$cell_width</em> to be saved for output on subsequent calls.
+Prefixing the output of each cell's value is a string from the
+two-element array <em>@prefix</em>.  Suffixing each cell's value is a string
+from the two-element array <em>@suffix</em>.  The first element of either 
+array is selected when <em>$wrap_flag</em> is zero or null, or when there is
+no more text in the current to be output.  The second element
+is selected when <em>$wrap_flag</em> is non-zero, and when there is more text in
+the current cell to be output.</p>
+<p>In the case of text longer than <em>$cell_width</em>, a non-zero value is
+returned.</p>
+<p>Cells with undefined data are not output, nor are the prefix or suffix
+strings.</p>
+<p>
+</p>
+<hr />
+<h1><a name="center">center</a></h1>
+<p>Center a string within a given width.</p>
+<p>&nbsp;&nbsp;<em>$field</em> = <strong>center</strong> <em>$string</em>, <em>$width</em>;</p>
+<p>
+</p>
+<hr />
+<h1><a name="max">max</a></h1>
+<p>Compute the maximum value from a list of values.</p>
+<p>&nbsp;&nbsp;<em>$max</em> = <strong>&amp;max</strong>( <em>@values</em> );</p>
+<p>
+</p>
+<hr />
+<h1><a name="min">min</a></h1>
+<p>Compute the minum value from a list of values.</p>
+<p>&nbsp;&nbsp;<em>$min</em> = <strong>&amp;min</strong>( <em>@values</em> );</p>
+<p>
+</p>
+<hr />
+<h1><a name="max_length">max_length</a></h1>
+<p>Compute the maximum length of a set of strings in an array reference.</p>
+<p>&nbsp;&nbsp;<em>$maxlength</em> = <strong>&amp;max_length</strong>( <em>\@array_ref</em> );</p>
+<p>
+</p>
+<hr />
+<h1><a name="htmltext">htmltext</a></h1>
+<p>Translate regular text for output into an HTML document.  This means
+certain characters, such as ``&amp;'', ``&gt;'', and ``&lt;'' must be escaped.</p>
+<p>&nbsp;&nbsp;<em>$output</em> = <strong>&amp;htmltext</strong>( <em>$input</em> [, <em>$allflag</em> ] );</p>
+<p>If <em>$allflag</em> is non-zero, then all characters are escaped.  Normally,
+only the four HTML syntactic break characters are escaped.</p>
+<p>
+</p>
+<hr />
+<h1><a name="out">out</a></h1>
+<p>Print text followed by a newline.</p>
+<p>&nbsp;&nbsp;<strong>out</strong> <em>$fmt</em> [, <em>@text</em> ];</p>
+<p>
+</p>
+<hr />
+<h1><a name="put">put</a></h1>
+<p>Print text (without a trailing newline).</p>
+<p>&nbsp;&nbsp;<strong>out</strong> <em>$fmt</em> [, <em>@text</em> ];</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Alan K. Stebbens &lt;<a href="mailto:aks@stebbens.org">aks@stebbens.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<ul>
+<li>
+<p>Embedded HTML is how the user can insert formatting overrides.  However,
+the HTML formatting techniques have not been given much consideration --
+feel free to provide constructive feedback.</p>
+</dl>
+
+</body>
+
+</html>

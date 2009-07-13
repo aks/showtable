@@ -1,4 +1,4 @@
-#!/usr/bin/perl5
+#!/usr/bin/env perl
 
 ($DIR,$PROG) = $0 =~ m=^(.*/)?([^/]+)$=;
 $DIR =~ s=/$== || chop($DIR = `pwd`);
@@ -12,7 +12,11 @@ $DIR =~ s=/$== || chop($DIR = `pwd`);
 		table => 'ShowTable',
 	);
 
-$showSub = $types{$type} or die "I don't know about \"$type\" types!\n";
+if (defined $types{$type}) {
+  $showSub = $types{$type};
+} else {
+  die "I don't know about \"$type\" types!\n";
+}
 $showSub = \&$showSub;
 
 $what = "t/$what" if -d "t" && !-r "$what.pl";

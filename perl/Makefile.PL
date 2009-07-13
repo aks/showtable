@@ -1,6 +1,6 @@
 # Makefile for ShowTable.pm
 #
-#    Copyright (C) 1996-2006 Alan K. Stebbens <aks@stebbens.org>
+#    Copyright (C) 1996-2009 Alan K. Stebbens <aks@stebbens.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by

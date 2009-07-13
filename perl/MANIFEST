@@ -1,5 +1,3 @@
-CVS/Entries
-CVS/Repository
 Changes
 Copyright
 Data-ShowTable-2.2.html
@@ -16,8 +14,6 @@ gen-tests
 showtable
 showtable-3.1.html
 showtable-3.3.html
-t/CVS/Entries
-t/CVS/Repository
 t/OBJ-TEST.pl
 t/Test-Setup.pl
 t/box-calls.t
@@ -34,8 +30,6 @@ t/list-calls.t
 t/list-scaling.t
 t/list-widths.t
 t/list-wrap.t
-t/out/CVS/Entries
-t/out/CVS/Repository
 t/out/box-calls.t-1.ref
 t/out/box-calls.t-2.ref
 t/out/box-calls.t-3.ref

@@ -1,7 +1,7 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 # showtable - read data and show it
 #
-#    Copyright (C) 1996-2006 Alan K. Stebbens <aks@stebbbens.org>
+#    Copyright (C) 1996-2009 Alan K. Stebbens <aks@stebbbens.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -35,10 +35,10 @@
 #
 # If no file is given, STDIN is used by default.
 #
-# $Id: showtable,v 3.3.1.1 1997/02/26 03:15:48 astebben Exp $
-# $Source: /c/CVSROOT/perl/Data-ShowTable/showtable,v $
+# $Id$
+# $Source$
 #
-# Author: Alan K. Stebbens
+# Author: Alan K. Stebbens <aks@ajharmony.com>
 #
 
 ($DIR,$PROG) = $0 =~ m=^(.*/)?([^/]+)$=;
@@ -289,9 +289,10 @@ sub guess_type {
     /^([01tf]|yes|no|on|off)$/i		&& return 'bool';	# 0, 1, yes, no, on, off, t, f
     /^[-+]?\d+$/			&& return 'int';	# +-nnnn
     /^[-+]?[\d.]+(E[+-]?\d+)?$/		&& return 'real';	# +-nnn.nnn(E+-nn)
-    /^-?\(?\$[ \d,.]+\)?(?: *CR)?$/	&& return 'money';	# ($  nnn,nnn.nn)
-    /^-?\(?[\d]+,[\d,]+(\.(\d\d)?)?\)?$/&& return 'money';	# ( nnn,nnn.nn)
-    m=^\d{2,4}[-/]\d{1,2}[-/]\d{1,2}$=	&& return 'date';	# mm/dd/yy
+    /^[-+]?[\d.]\%$/			&& return 'pct';	# nn%, nn.n%, -nn.nnn%
+    /^-?\(?\$[ \d,.]+\)?(?: *CR)?$/	&& return 'money';	# $  nn,nnn.nn or ($  nnn,nnn.nn)
+    /^-?\(?[\d]+,[\d,]+(\.(\d\d)?)?\)?$/&& return 'money';	# nnn,nnn.nn or ( nnn,nnn.nn)
+    m=^\d{2,4}[-/]\d{1,2}[-/]\d{1,2}$=	&& return 'date';	# mm/dd/yy, yy/mm/dd, yyyy/mm/dd, yyyy-mm-dd
     /^\w{3,9} \d{1,2}, \d{4}/		&& return 'date';	# mmmm dd, yyyy
     /^\d{1,2}[- ]\w{3}[- ]\d{2,4}$/	&& return 'date';	# dd mmm yyyy
     /^\d\d:\d\d(:\d\d)?$/		&& return 'time';	# hh:mm:ss
@@ -324,6 +325,7 @@ sub new_type {
 
     # Now do finer-grain conversions
     grep(/money/i,	@types)	&& return 'money';
+    grep(/pct/i,        @types) && return 'pct';
     grep(/real/i,	@types) && return 'real';
     grep(/int/i,	@types) && return 'int';
     grep(/symbol/i,	@types) && return 'symbol';
@@ -696,25 +698,25 @@ data within a boxed table.
 =item B<-t(able)>
 
 Use a I<table> format for output, with wrapping of column values longer 
-than the given or determined column widths.  See L<ShowTable> for 
+than the given or determined column widths.  See L<Data::ShowTable> for 
 more details.
 
 =item B<-si(mple)>
 
 Use a simple table format, without any wrapping of column values.  
-See L<ShowTable> for more details.
+See L<Data::ShowTable> for more details.
 
 =item B<-l(ist)>
 
-Use a list style format.  See L<ShowTable> for more details.
+Use a list style format.  See L<Data::ShowTable> for more details.
 
 =item B<-b(ox)>
 
-Use a "boxed" style table.  See L<ShowTable> for more details.
+Use a "boxed" style table.  See L<Data::ShowTable> for more details.
 
 =item B<-ht(ml)>
 
-Use HTML-formating.  See L<ShowTable> for more details.
+Use HTML-formating.  See L<Data::ShowTable> for more details.
 
 =item B<-ti(tles)=>I<name1>B<,>I<name2>B<,...,>I<nameN>
 

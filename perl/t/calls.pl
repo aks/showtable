@@ -1,4 +1,4 @@
-#!/usr/bin/perl5
+#!/usr/bin/env perl
 
 # Test calling sequences.
 # set $showSub or default to 'ShowBoxTable'.
