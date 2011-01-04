@@ -1,0 +1,31 @@
+The ShowTable project is a tool developed in multiple languages to 
+read data in a variety of input formats, and output the data after
+"normalizing" it, in one of several possible formats.
+
+The Perl version has been around for many years; the Ruby version is 
+just now being developed.
+
+Each package provides a library for other applications to use, and a script
+that is a client of the library and performs a filtering and presentation
+function on data.
+
+The program is called "showtable", and the library is called "ShowTable".
+
+In Perl, you would use ShowTable like this:
+
+  use ShowTable;
+  ...
+  show_table some_data
+
+In Ruby, the invocation is:
+
+  require 'show-table'
+  ...
+  show_table some_data
+
+I'm considering developing a version in Python.  TBD.
+
+Contributions or improvements are welcome.
+
+_________________________________
+Alan Stebbens <aks+showtable@ajharmony.com>      
