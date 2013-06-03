@@ -4,7 +4,7 @@
 <head>
 <title>B&lt;showtable&gt; - Show data in nicely formatted columns</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:support@ActiveState.com" />
+<link rev="made" href="mailto:_mdnsresponder@fifth.apple.com" />
 </head>
 
 <body style="background-color: white">
@@ -71,15 +71,9 @@ input, and those which determine the format of the output.</p>
 <dt><strong><a name="break_str" class="item"><strong>-break=</strong><em>str</em></a></strong></dt>
 
 <dd>
-<p>Set the inter-column break string to &quot;<em>str</em>&quot;.  The default depends on the
-input: if the input file ends in '.csv', the break is a comma (','); if the
-input file ends in '.tsv', the break is a tab ('\t'); otherwise the break is
-whitespace ('\s').</p>
-<p>There are some special-case <em>str</em> values, and equivalencies: nl =&gt; &quot;\n&quot;,
-cr =&gt; &quot;\r&quot;, tab =&gt; &quot;\t&quot;, &quot;space&quot; =&gt; &quot;\s+&quot;, &quot;ws&quot; =&gt; &quot;\s+&quot;.  These keywords
-can be given in either case; e.g., &quot;<strong>-dTAB</strong>&quot; or &quot;<strong>-dtab</strong>&quot;</p>
-<p>If <strong>-strip</strong> is also given, blanks surrounding the break string will also be
-ignored.</p>
+<p>Set the inter-column break string to &quot;<em>str</em>&quot;.  The default
+is a tab (&quot;<a href="#t"><code>\t</code></a>&quot;).  If <strong>-strip</strong> is also given, blanks surrounding
+the break string will also be ignored.</p>
 </dd>
 <dt><strong><a name="dstr" class="item"><strong>-d</strong><em>str</em></a></strong></dt>
 
@@ -249,8 +243,7 @@ Each HTML element can be given either as an HTML token (eg:
 where the first column title should be bold italic, the second italic,
 and the third italic in a smaller font:</p>
 <pre>
-        <span class="operator">-</span><span class="variable">tf</span><span class="operator">=</span><span class="string">'BOLD,I;I;&lt;FONT SIZE=-2&gt;,I'</span>
-</pre>
+        -tf='BOLD,I;I;&lt;FONT SIZE=-2&gt;,I'</pre>
 </dd>
 <dt><strong><a name="d" class="item"><strong>-d(ata)_f(formats)</strong>=<em>fmt1</em>;<em>fmt2</em>;...;<em>fmtN</em></a></strong></dt>
 
@@ -365,7 +358,7 @@ correctly.</p>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Alan K. Stebbens <em><a href="mailto:aks+showtable@stebbens.org">aks+showtable@stebbens.org</a></em></p>
+<p>Alan K. Stebbens <em><a href="mailto:aks@stebbens.org">aks@stebbens.org</a></em></p>
 <p>
 </p>
 <hr />

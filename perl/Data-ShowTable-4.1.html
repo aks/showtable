@@ -4,7 +4,7 @@
 <head>
 <title>B&lt;ShowTable&gt; - routines to display tabular data in several formats.</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:support@ActiveState.com" />
+<link rev="made" href="mailto:_mdnsresponder@fifth.apple.com" />
 </head>
 
 <body style="background-color: white">
@@ -205,13 +205,11 @@ as a string of the form: &quot;<em>width</em>.<em>precision</em>&quot;.</p>
 It is called for two purposes, each described separately:</p>
 <p>* To fetch successive rows of data:</p>
 <pre>
-    <span class="variable">@row</span> <span class="operator">=</span> <span class="operator">&amp;</span><span class="variable">$row_sub</span><span class="operator">(</span><span class="number">0</span><span class="operator">);</span>
-</pre>
+    @row = &amp;$row_sub(0);</pre>
 <p>When given a null, zero, or empty argument, the next row is returned.</p>
 <p>* To initialize or rewind the data traversal.</p>
 <pre>
-    <span class="variable">$rewindable</span> <span class="operator">=</span> <span class="operator">&amp;</span><span class="variable">$row_sub</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
-</pre>
+    $rewindable = &amp;$row_sub(1);</pre>
 <p>When invoked with a non-null argument, the subroutine should rewind its
 row pointer to start at the first row of data.  If the data which
 <em>row_sub</em> is traversing is not rewindable, it must return zero or null.
@@ -222,17 +220,16 @@ cannot be rewound, <em>row_sub</em> will thereafter only be called with a zero
 argument.</p>
 <p>Specifically, <em>row_sub</em> subroutine is used in this manner:</p>
 <pre>
-    <span class="variable">$rewindable</span> <span class="operator">=</span> <span class="operator">&amp;</span><span class="variable">$row_sub</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
-    <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$rewindable</span><span class="operator">)</span> <span class="operator">{</span>
-        <span class="keyword">while</span> <span class="operator">((</span><span class="variable">@row</span> <span class="operator">=</span> <span class="operator">&amp;</span><span class="variable">$row_sub</span><span class="operator">(</span><span class="number">0</span><span class="operator">)),</span> <span class="variable">$#row</span> <span class="operator">&gt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-            <span class="comment"># examine lengths for optimal formatting</span>
-        <span class="operator">}</span>
-        <span class="operator">&amp;</span><span class="variable">$row_sub</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>   <span class="comment"># rewind</span>
-    <span class="operator">}</span>
-    <span class="keyword">while</span> <span class="operator">((</span><span class="variable">@row</span> <span class="operator">=</span> <span class="operator">&amp;</span><span class="variable">$row_sub</span><span class="operator">(</span><span class="number">0</span><span class="operator">)),</span> <span class="variable">$#row</span> <span class="operator">&gt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
-        <span class="comment"># format the data</span>
-    <span class="operator">}</span>
-</pre>
+    $rewindable = &amp;$row_sub(1);
+    if ($rewindable) {
+        while ((@row = &amp;$row_sub(0)), $#row &gt;= 0) {
+            # examine lengths for optimal formatting
+        }
+        &amp;$row_sub(1);   # rewind
+    }
+    while ((@row = &amp;$row_sub(0)), $#row &gt;= 0) {
+        # format the data
+    }</pre>
 <p>The consequence of data that is not rewindable, a reasonably nice table
 will still be formatted, but it may contain fairly large amounts of
 whitespace for wide columns.</p>
@@ -245,8 +242,7 @@ type, width, precision, and the current column width.  It is invoked
 either with a fixed list of arguments, or with a hash-array of parameter
 and value pairs.</p>
 <pre>
-  <span class="variable">$string</span> <span class="operator">=</span> <span class="operator">&amp;</span><span class="variable">fmt_sub</span> <span class="operator">{</span> <span class="variable">I</span><span class="operator">&lt;</span><span class="variable">parameter</span><span class="operator">&gt;</span> <span class="operator">=&gt;</span> <span class="variable">I</span><span class="operator">&lt;</span><span class="variable">value</span><span class="operator">&gt;,</span> <span class="operator">...</span> <span class="operator">};</span>
-</pre>
+  $string = &amp;fmt_sub { I&lt;parameter&gt; =&gt; I&lt;value&gt;, ... };</pre>
 <pre>
   $string = &amp;fmt_sub($value, $type, $max_width, $width, $precision)</pre>
 <p>If <em>\&amp;fmt_sub</em> is omitted, then a default subroutine, <strong>ShowTableValue</strong>, 
@@ -400,10 +396,9 @@ or the column index (beginning with 1) may be used as the hash key.</p>
 <p>&quot;<code>%I</code>&quot; is replaced with the column index.</p>
 <p>For example, if we define the array:</p>
 <pre>
-    <span class="variable">$base_url</span> <span class="operator">=</span> <span class="string">"http://www.</span><span class="variable">$domain</span><span class="string">/cgi/lookup?col=%K?val=%V"</span><span class="operator">;</span>
-    <span class="variable">%url_cols</span> <span class="operator">=</span> <span class="operator">(</span><span class="string">'Author'</span> <span class="operator">=&gt;</span> <span class="variable">$base_url</span><span class="operator">,</span>
-                 <span class="string">'Name'</span>   <span class="operator">=&gt;</span> <span class="variable">$base_url</span><span class="operator">);</span>
-</pre>
+    $base_url = &quot;<a href="http://www">http://www</a>.$domain/cgi/lookup?col=%K?val=%V&quot;;
+    %url_cols = ('Author' =&gt; $base_url,
+                 'Name'   =&gt; $base_url);</pre>
 <p>Then, the values in the <code>Author</code> column will be generated with the following
 HTML text:</p>
 <pre>
@@ -466,12 +461,11 @@ null, then the global variable <strong>\@Data_Formats</strong> is used by defaul
 <code>\&lt;TABLE\</code>&gt; token.  For example, if the user wishes to have no table
 border:</p>
 <pre>
-    <span class="variable">ShowHTMLTable</span> <span class="operator">{</span> 
-        <span class="operator">...</span>
-        <span class="string">table_attrs</span> <span class="operator">=&gt;</span> <span class="string">'BORDER=0'</span><span class="operator">,</span> 
-        <span class="operator">...</span>
-    <span class="operator">};</span>
-</pre>
+    ShowHTMLTable { 
+        ...
+        table_attrs =&gt; 'BORDER=0', 
+        ...
+    };</pre>
 </dd>
 </dl>
 <p>
@@ -572,10 +566,9 @@ determined by <em>$index</em> is returned, and <em>$index</em> will
 have been incremented.</p>
 <p>An actual invocation (from <strong>ShowColumns</strong>) is:</p>
 <pre>
-  <span class="variable">ShowTable</span> <span class="operator">\</span><span class="variable">@titles</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">@types</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">@lengths</span><span class="operator">,</span> 
-      <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="operator">&amp;</span><span class="variable">ShowRow</span><span class="operator">(</span> <span class="variable">$_</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">$current_row</span><span class="operator">,</span> <span class="variable">$col_names</span><span class="operator">,</span> <span class="variable">$col_types</span><span class="operator">,</span>
-                      <span class="variable">$col_lengths</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">@col_attrs</span><span class="operator">);</span> <span class="operator">};</span>
-</pre>
+  ShowTable \@titles, \@types, \@lengths, 
+      sub { &amp;ShowRow( $_[0], \$current_row, $col_names, $col_types,
+                      $col_lengths, \@col_attrs); };</pre>
 <p>In the example above, after each invocation, the <em>$current_row</em> argument 
 will have been incremented.</p>
 <p>
@@ -966,7 +959,7 @@ only the four HTML syntactic break characters are escaped.</p>
 </p>
 <hr />
 <h1><a name="author">AUTHOR</a></h1>
-<p>Alan K. Stebbens &lt;<a href="mailto:aks+showtable@stebbens.org">aks+showtable@stebbens.org</a>&gt;</p>
+<p>Alan K. Stebbens &lt;<a href="mailto:aks@stebbens.org">aks@stebbens.org</a>&gt;</p>
 <p>
 </p>
 <hr />

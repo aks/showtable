@@ -1,6 +1,6 @@
 # Makefile for ShowTable.pm
 #
-#    Copyright (C) 1996-2009 Alan K. Stebbens <aks@stebbens.org>
+#    Copyright (C) 1996-2013 Alan K. Stebbens <aks@stebbens.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
 	'NAME'		=> 'Data::ShowTable',
-	'VERSION'	=> '4.0',
+	'VERSION'	=> '4.1',
 	'EXE_FILES'	=> [ 'showtable' ],
 	'dist'		=> { COMPRESS => 'gzip',
 			     SUFFIX => '.gz', 
