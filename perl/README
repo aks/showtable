@@ -1,4 +1,4 @@
-ShowTable.pm, version 3.3, is a Perl 5 module which defines subroutines
+ShowTable.pm, version 4.1, is a Perl 5 module which defines subroutines
 to print arrays of data in a nicely formatted listing, using one of
 four possible formats: simple table, boxed table, list style, and
 HTML-formatting (for World-Wide-Web output).  See the documentation on
@@ -32,11 +32,11 @@ INSTALLATION:
 
 1. Unpack the archive
 
-    sh Data-ShowTable-3.1.shar
+    sh Data-ShowTable-4.1.shar
 
    or:
 
-    gnutar xvfz Data-ShowTable-3.1.tar.gz
+    gnutar xvfz Data-ShowTable-4.1.tar.gz
 
 2. Generate the "Makefile":
 
@@ -60,4 +60,4 @@ INSTALLATION:
 Contributions or improvements are welcome.
 
 _________________________________
-Alan Stebbens <aks@ajharmony.com>      
+Alan Stebbens <aks@stebbens.org>      
