@@ -288,6 +288,7 @@ sub guess_type {
     /^$/				&& return 'null';	# null type
     /^([01tf]|yes|no|on|off)$/i		&& return 'bool';	# 0, 1, yes, no, on, off, t, f
     m=^\d{2,4}[-/.]\d{1,2}[-/.]\d{1,2}$= && return 'date';	# mm/dd/yy, yy/mm/dd, yyyy.mm.dd, yyyy-mm-dd
+    m=^\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}$= && return 'date';	# dd.mm.yyyy, d.m.yy, dd-mm-yy
     /^\w{3,9} \d{1,2}, \d{4}/		&& return 'date';	# mmmm dd, yyyy
     /^\d{1,2}[- ]\w{3}[- ]\d{2,4}$/	&& return 'date';	# dd mmm yyyy
     /^\d\d:\d\d(:\d\d)?$/		&& return 'time';	# hh:mm:ss
