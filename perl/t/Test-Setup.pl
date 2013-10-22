@@ -9,12 +9,14 @@ $testdir = -d 't' ? 't' : '.';
 
 # Setup these globals
 
-@Titles = ("Index", "Name", "Phone", "Address");
-@Types  = ("int",   "char", "char",  "char");
-@Data   = ( [ 1, "Alan Stebbens", "555-1234", "1234 Something St., CA" ],
-	    [ 2, "Bob Frankel",   "555-1235", "9234 Nowhere Way, WA" ],
-	    [ 3, "Mr. Goodwrench","555-9432", "1238 Car Lane Pl., NY" ],
-	    [ 4, "Mr. Ed",	  "555-3215", "9876 Cowbarn Home, VA" ],
+@Titles = ("Index", "Name", "Phone", "Address", "Date");
+@Types  = ("int",   "char", "char",  "char",    "date");
+@Widths = (  3,  20, 15, 25, 10 );
+@Data   = ( [ 1, "Alan Stebbens", "555-1234", "1234 Something St., CA", "1998-10-22" ],
+	    [ 2, "Bob Frankel",   "555-1235", "9234 Nowhere Way, WA",   "2001-01-02" ],
+	    [ 3, "Mr. Goodwrench","555-9432", "1238 Car Lane Pl., NY",  "2004-04-20" ],
+	    [ 4, "Mr. Ed",	  "555-3215", "9876 Cowbarn Home, VA",  "2008-09-12" ],
+            [ 5, "Gunther Sveborg", "44-55-555-5555", "Kartophelhause 345, Munich, Germany", "2013.10.22"],
 	  );
 
 sub talk { print STDERR @_; }

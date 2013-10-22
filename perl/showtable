@@ -287,15 +287,15 @@ sub guess_type {
     s/^\s+//; s/\s+$//;			# trim leading & trailing blanks
     /^$/				&& return 'null';	# null type
     /^([01tf]|yes|no|on|off)$/i		&& return 'bool';	# 0, 1, yes, no, on, off, t, f
+    m=^\d{2,4}[-/.]\d{1,2}[-/.]\d{1,2}$= && return 'date';	# mm/dd/yy, yy/mm/dd, yyyy.mm.dd, yyyy-mm-dd
+    /^\w{3,9} \d{1,2}, \d{4}/		&& return 'date';	# mmmm dd, yyyy
+    /^\d{1,2}[- ]\w{3}[- ]\d{2,4}$/	&& return 'date';	# dd mmm yyyy
+    /^\d\d:\d\d(:\d\d)?$/		&& return 'time';	# hh:mm:ss
     /^[-+]?\d+$/			&& return 'int';	# +-nnnn
     /^[-+]?[\d.]+(E[+-]?\d+)?$/		&& return 'real';	# +-nnn.nnn(E+-nn)
     /^[-+]?[\d.]\%$/			&& return 'pct';	# nn%, nn.n%, -nn.nnn%
     /^-?\(?\$[ \d,.]+\)?(?: *CR)?$/	&& return 'money';	# $  nn,nnn.nn or ($  nnn,nnn.nn)
     /^-?\(?[\d]+,[\d,]+(\.(\d\d)?)?\)?$/&& return 'money';	# nnn,nnn.nn or ( nnn,nnn.nn)
-    m=^\d{2,4}[-/]\d{1,2}[-/]\d{1,2}$=	&& return 'date';	# mm/dd/yy, yy/mm/dd, yyyy/mm/dd, yyyy-mm-dd
-    /^\w{3,9} \d{1,2}, \d{4}/		&& return 'date';	# mmmm dd, yyyy
-    /^\d{1,2}[- ]\w{3}[- ]\d{2,4}$/	&& return 'date';	# dd mmm yyyy
-    /^\d\d:\d\d(:\d\d)?$/		&& return 'time';	# hh:mm:ss
     /^['"]|["']$/			&& return 'string';	# "xxxx"
     /^\w+$/				&& return 'symbol';
     /\n/				&& return 'text';
@@ -584,7 +584,7 @@ sub ReadListInput {
 	my %row;
 	# Read another "row" of list data
 	while (1) {
-	    ($_ = <STDIN>) or last;
+	    defined($_ = <STDIN>) or last;
 	    last if /^\s*$/;	# stop on the row boundary
 	    chomp;
 	    ($key, $val) = /^\s*([\w_.:\/-]+)?\s*:[ \t]?(.*)/;

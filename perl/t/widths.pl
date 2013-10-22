@@ -14,7 +14,7 @@ start_tests 8;
 
 # Test negative widths
 run_test 1, sub {
-    &$showSub({	widths  => [ -5, -20, -10, -30 ],
+    &$showSub({	widths  => [ -5, -20, -10, -30, -10 ],
 		titles  => \@Titles,
 		types   => \@Types, 
 		row_sub => \&showDataRow,
@@ -23,7 +23,7 @@ run_test 1, sub {
 
 # Test positive widths
 run_test 2, sub {
-    &$showSub({ widths  => [ +5, +20, +10, +30 ],
+    &$showSub({ widths  => [ +5, +20, +10, +30, +10 ],
 		titles  => \@Titles,
 		types   => \@Types, 
 		row_sub => \&showDataRow,
@@ -43,7 +43,7 @@ run_test 3, sub {
 # columns).
 
 run_test 4, sub {
-    &$showSub({ widths  => [ +15, +30, +20, +40 ],
+    &$showSub({ widths  => [ +15, +30, +20, +40, +15 ],
 		titles  => \@Titles,
 		types   => \@Types, 
 		row_sub => \&showDataRow,
@@ -54,7 +54,7 @@ run_test 4, sub {
 # so columns will be large).
 
 run_test 5, sub {
-    &$showSub({ widths  => [ +15, +30, +20, +40 ],
+    &$showSub({ widths  => [ +15, +30, +20, +40, +15 ],
 		titles  => \@Titles,
 		types   => \@Types, 
 		row_sub => \&showDataRowOnce,
@@ -64,7 +64,7 @@ run_test 5, sub {
 
 # Still have fixed columns, but maybe cause wrapping
 run_test 6, sub {
-    &$showSub({ widths  => [ +14, +25, +15, +25 ],
+    &$showSub({ widths  => [ +14, +25, +15, +25, +10 ],
 		titles  => \@Titles,
 		types   => \@Types, 
 		row_sub => \&showDataRowOnce,
@@ -73,7 +73,7 @@ run_test 6, sub {
 
 # Now, have a no-limit column mixed in with a fixed width
 run_test 7, sub {
-    &$showSub({ widths  => [ +14, 0, +15, +25 ],
+    &$showSub({ widths  => [ +14, 0, +15, +25, +10 ],
 		titles  => \@Titles,
 		types   => \@Types, 
 		row_sub => \&showDataRow
@@ -82,7 +82,7 @@ run_test 7, sub {
 
 # Now, have a no-limit column mixed in with a max width
 run_test 8, sub {
-    &$showSub({ widths  => [ +14, '', +10, +10 ],
+    &$showSub({ widths  => [ +14, '', +10, +10, +10 ],
 		titles  => \@Titles,
 		types   => \@Types, 
 		row_sub => \&showDataRow

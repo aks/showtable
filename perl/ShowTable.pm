@@ -1969,7 +1969,6 @@ sub putcell {
     my $prefix     = shift;	# 2-elt array of prefix strings
     my $suffix     = shift;	# 2-elt array of suffix strings
     my $wrap_flag  = shift;	# non-zero for wrapped lines
-    my $fmt        = sprintf("%%s%%-%ds%%s",$cell_width);
     my $more;
 
     my $v = $cells->[$c];	# get the data
@@ -1977,7 +1976,7 @@ sub putcell {
     my $sx = 0;			# suffix index
     if (defined $v) {		# not undef data?
 	my $text = $v;		# save the text
-	$cell_width = 1 unless $cell_width > 0;	# be sane
+        $cell_width = 1 if !defined($cell_width) || $cell_width == 0;
 	if ($cell_width <= length($text)) {
 	    $more = substr($text,$cell_width);
 	    $v = substr($text,0,$cell_width);
@@ -2010,6 +2009,7 @@ sub putcell {
 	$px = $wrap_flag != 0 && length($v) > 0;
 	$sx = length($more) > 0;
     }
+    my $fmt        = sprintf("%%s%%-%ds%%s",$cell_width);
     put $fmt,$prefix->[$px],$v,$suffix->[$sx];	# output something (could be blanks)
     $sx;			# leave wrapped flag
 }
