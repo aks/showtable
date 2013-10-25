@@ -1,6 +1,10 @@
 bump-version
 Changes
 Copyright
+Data-ShowTable-2.2.html
+Data-ShowTable-2.3.html
+Data-ShowTable-3.1.html
+Data-ShowTable-3.3.html
 gen-html
 gen-tests
 GNU-LICENSE
@@ -11,6 +15,8 @@ MYMETA.yml
 pm_to_blib
 README
 showtable
+showtable-3.1.html
+showtable-3.3.html
 ShowTable.pm
 t/box-calls.t
 t/box-scaling.t

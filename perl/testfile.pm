@@ -1,4 +1,5 @@
-# Makefile for ShowTable.pm
+# perl -w
+# testfile.pm
 #
 #    Copyright (C) 1996-2013 Alan K. Stebbens <aks@stebbens.org>
 #
@@ -17,17 +18,18 @@
 #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
 
-require 5.002;
-use ExtUtils::MakeMaker;
+package TestFile;
 
-WriteMakefile(
-	NAME		=> 'Data::ShowTable',
-        VERSION_FROM    => 'ShowTable.pm',
-	ABSTRACT        => 'Perl module to automatically format columnar data.',
-	AUTHOR	        => 'Alan Stebbens <aks@stebbens.org>',
-	EXE_FILES	=> [ 'showtable' ],
-	LICENSE	        => 'gpl',
-	dist		=> { COMPRESS => 'gzip',
-			     SUFFIX => '.gz', 
-			   },
-    );
+$VERSION = '4.0';
+
+=head1 NAME
+
+This is a test file.  It does nothing.
+
+=cut
+
+sub do_nothing {
+  exit;
+}
+
+1;

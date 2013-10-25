@@ -17,10 +17,10 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
-# $Id: ShowTable.pm,v 3.3.1.1 1997/03/02 22:04:50 astebben Exp $
-#
 
 package Data::ShowTable;
+
+$VERSION = '4.5';
 
 =head1 NAME
 
@@ -2161,6 +2161,8 @@ Alan K. Stebbens <aks@stebbens.org>
 Embedded HTML is how the user can insert formatting overrides.  However,
 the HTML formatting techniques have not been given much consideration --
 feel free to provide constructive feedback.
+
+=back
 
 =cut
 
