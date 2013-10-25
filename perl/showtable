@@ -45,6 +45,8 @@
 chop($DIR = `pwd`) unless defined($DIR);
 $DIR =~ s=/$==; 
 
+$VERSION = '4.5';
+
 unshift(@INC,'.');
 unshift(@INC,'blib/lib') if -d 'blib/lib';	# for testing
 

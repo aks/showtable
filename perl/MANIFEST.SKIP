@@ -1,0 +1,33 @@
+#include_default
+
+# Version control files and dirs.
+\bRCS\b
+\bCVS\b
+,v$
+\B\.svn\b
+
+# Makemaker generated files and dirs.
+^MANIFEST\.
+^Makefile$
+^blib/
+^MakeMaker-\d
+\.tar\.gz
+
+# Temp, old and emacs backup files.
+~$
+\.old$
+^#.*#$
+^\.#
+\.swp$
+
+# old versions of the html and tarballs
+^Data-ShowTable-[23]\.\d+\.html$
+^Data-ShowTable-4\.[^4]\.html$
+^Data-ShowTable-[23]\.\d+\.tar\.gz$
+^Data-ShowTable-4\.[^4]\.tar\.gz$
+^showtable-[23]\.\d+\.html
+^showtable-4\.[^4]\.html
+
+# personal stuff
+update-public
+
