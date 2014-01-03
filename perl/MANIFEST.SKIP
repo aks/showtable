@@ -12,6 +12,8 @@
 ^blib/
 ^MakeMaker-\d
 \.tar\.gz
+MYMETA.yml
+MYMETA.json
 
 # Temp, old and emacs backup files.
 ~$

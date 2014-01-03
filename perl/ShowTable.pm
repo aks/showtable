@@ -20,7 +20,7 @@
 
 package Data::ShowTable;
 
-$VERSION = '4.5';
+$VERSION = '4.6';
 
 =head1 NAME
 

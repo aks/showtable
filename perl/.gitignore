@@ -1,0 +1,8 @@
+# This is a Perl project, using Makefile.PL
+Makefile
+MYMETA.json
+MYMETA.yml
+*.bak
+*.old
+blib
+pm_to_blib
